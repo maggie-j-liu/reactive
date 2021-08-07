@@ -1,19 +1,26 @@
 {
-  "name": "svelte-app",
+  "name": "reactive",
   "version": "1.0.0",
-  "private": true,
+  "private": false,
   "scripts": {
     "build": "rollup -c",
     "build:embed": "EMBED=true rollup -c",
+    "build:package": "PACKAGE=true rollup -c",
     "dev": "rollup -c -w",
     "start": "sirv public --no-clear"
   },
+  "files": [
+    "public/dist/index.js",
+    "public/dist/index.mjs",
+    "src/embed.js"
+  ],
+  "main": "public/dist/index.js",
+  "module": "public/dist/index.mjs",
+  "svelte": "src/embed.js",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
     "autoprefixer": "^10.3.1",
-    "firebase": "^8.9.0",
-    "firebase-encode": "^0.0.5",
     "postcss": "^8.3.6",
     "postcss-load-config": "^3.1.0",
     "rollup": "^2.3.4",
@@ -27,6 +34,8 @@
     "tailwindcss": "^2.2.7"
   },
   "dependencies": {
-    "sirv-cli": "^1.0.0"
+    "sirv-cli": "^1.0.0",
+    "firebase": "^8.9.0",
+    "firebase-encode": "^0.0.5"
   }
 }

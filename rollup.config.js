@@ -5,6 +5,7 @@ import livereload from "rollup-plugin-livereload";
 import { terser } from "rollup-plugin-terser";
 import css from "rollup-plugin-css-only";
 import sveltePreprocess from "svelte-preprocess";
+import pkg from "./package.json";
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -89,6 +90,44 @@ if (process.env.EMBED) {
     watch: {
       clearScreen: false,
     },
+  };
+} else if (process.env.PACKAGE) {
+  app = {
+    input: "src/embed.js",
+    output: [
+      { file: pkg.module, format: "es" },
+      { file: pkg.main, format: "umd", name: "reactive" },
+    ],
+    plugins: [
+      svelte({
+        preprocess: sveltePreprocess({
+          sourceMap: !production,
+          postcss: true,
+        }),
+        onwarn: (warning, handler) => {
+          const { code, frame } = warning;
+          if (code === "css-unused-selector") return;
+
+          handler(warning);
+        },
+        emitCss: false,
+      }),
+
+      // If you have external dependencies installed from
+      // npm, you'll most likely need these plugins. In
+      // some cases you'll need additional configuration -
+      // consult the documentation for details:
+      // https://github.com/rollup/plugins/tree/master/packages/commonjs
+      resolve({
+        browser: true,
+        dedupe: ["svelte"],
+      }),
+      commonjs(),
+
+      // If we're building for production (npm run build
+      // instead of npm run dev), minify
+      terser(),
+    ],
   };
 } else {
   app = {

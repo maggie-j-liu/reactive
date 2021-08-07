@@ -13,4 +13,7 @@ const install = ({ firebaseConfig, reactions, page, reactionText }) => {
   });
 };
 
-export { install };
+const reactive = {};
+reactive.install = install;
+
+export default reactive;
