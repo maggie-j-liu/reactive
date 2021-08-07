@@ -11,7 +11,7 @@ import Head from "next/head";
 import { CMS_NAME } from "../../lib/constants";
 import markdownToHtml from "../../lib/markdownToHtml";
 import { useEffect } from "react";
-import reactive from "reactive";
+import reactive from "@maggieliu/reactive";
 
 export default function Post({ post, morePosts, preview }) {
   const config = {
