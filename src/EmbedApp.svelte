@@ -60,6 +60,8 @@
         .once("value")
         .then((snap) => snap.val())
         .then((r) => updateUserReacts(r ?? {}));
+    } else {
+      userReacts = [];
     }
   }
 
