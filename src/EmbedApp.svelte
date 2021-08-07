@@ -84,7 +84,9 @@
       -webkit-text-size-adjust: 100%;
     }
   }
-  .primary-btn {
-    @apply bg-gradient-to-r from-primary-100 hover:from-primary-200 via-blue-100 hover:via-blue-200 to-purple-100 hover:to-purple-200 text-primary-900 hover:bg-primary-100 rounded-md py-1 px-2;
+  @layer utilities {
+    .primary-btn {
+      @apply bg-gradient-to-r from-primary-100 hover:from-primary-200 via-blue-100 hover:via-blue-200 to-purple-100 hover:to-purple-200 text-primary-900 hover:bg-primary-100 rounded-md py-1 px-2;
+    }
   }
 </style>

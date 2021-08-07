@@ -20,6 +20,7 @@
   "svelte": "src/embed.js",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
     "autoprefixer": "^10.3.1",
     "postcss": "^8.3.6",
@@ -38,6 +39,7 @@
     "@tailwindcss/forms": "^0.3.3",
     "firebase": "^8.9.0",
     "firebase-encode": "^0.0.5",
+    "javascript-time-ago": "^2.3.8",
     "sirv-cli": "^1.0.0"
   }
 }
