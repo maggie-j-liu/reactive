@@ -11,26 +11,28 @@ import Head from "next/head";
 import { CMS_NAME } from "../../lib/constants";
 import markdownToHtml from "../../lib/markdownToHtml";
 import { useEffect } from "react";
+import Script from "next/script";
 
 export default function Post({ post, morePosts, preview }) {
   const router = useRouter();
   if (!router.isFallback && !post?.slug) {
     return <ErrorPage statusCode={404} />;
   }
+  const config = {
+    apiKey: "AIzaSyAux7Beoq9hQiT4TgQGnyNWR3_BwTukmaU",
+    authDomain: "reactive-db9e1.firebaseapp.com",
+    databaseURL: "https://reactive-db9e1-default-rtdb.firebaseio.com",
+    projectId: "reactive-db9e1",
+    storageBucket: "reactive-db9e1.appspot.com",
+    messagingSenderId: "248078740379",
+    appId: "1:248078740379:web:bebe06abacef70e4b50f3e",
+  };
 
   useEffect(() => {
-    console.log("useeffect");
+    // install on the client
     if (typeof reactive !== "undefined") {
       reactive.install({
-        firebaseConfig: {
-          apiKey: "AIzaSyAux7Beoq9hQiT4TgQGnyNWR3_BwTukmaU",
-          authDomain: "reactive-db9e1.firebaseapp.com",
-          databaseURL: "https://reactive-db9e1-default-rtdb.firebaseio.com",
-          projectId: "reactive-db9e1",
-          storageBucket: "reactive-db9e1.appspot.com",
-          messagingSenderId: "248078740379",
-          appId: "1:248078740379:web:bebe06abacef70e4b50f3e",
-        },
+        firebaseConfig: config,
       });
     }
   }, []);
@@ -49,7 +51,6 @@ export default function Post({ post, morePosts, preview }) {
                   {post.title} | Next.js Blog Example with {CMS_NAME}
                 </title>
                 <meta property="og:image" content={post.ogImage.url} />
-                <script src="https://cdn.jsdelivr.net/gh/maggie-j-liu/reactive@e461ceaaf60a7e949f8190119743c48a49342c7b/dist/bundle.js" />
               </Head>
               <PostHeader
                 title={post.title}
@@ -59,6 +60,16 @@ export default function Post({ post, morePosts, preview }) {
               />
               <PostBody content={post.content} />
               <div id="reactive_widget" />
+
+              <Script
+                src="https://reactive-kappa.vercel.app/dist/bundle.js"
+                onLoad={() => {
+                  // load for the first render (from server)
+                  reactive.install({
+                    firebaseConfig: config,
+                  });
+                }}
+              />
             </article>
           </>
         )}
