@@ -42,7 +42,7 @@ if (process.env.EMBED) {
       sourcemap: false,
       format: "iife",
       name: "reactive",
-      file: "dist/bundle.js",
+      file: "public/dist/bundle.js",
     },
     plugins: [
       svelte({
