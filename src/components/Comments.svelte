@@ -6,6 +6,7 @@
   import { encode } from "firebase-encode";
   import { onMount } from "svelte";
 
+  console.log("comments");
   export let page = window.location.pathname.endsWith("/")
     ? window.location.pathname
     : window.location.pathname + "/";
