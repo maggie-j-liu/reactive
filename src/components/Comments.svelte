@@ -30,6 +30,7 @@
   let comments = [];
   let currentComment = "";
   let users = {};
+  let previewMode = false;
 
   const updateComments = (com) => {
     comments = com;
@@ -82,26 +83,45 @@
       ...comments,
     ];
     currentComment = "";
+    previewMode = false;
   };
 </script>
 
 <div class="flex flex-col gap-4 text-2xl mt-3 w-3/4">
-  <textarea
-    bind:value={currentComment}
-    class="border-gray-400 rounded-md w-full form-textarea font-sans h-24 disabled:cursor-not-allowed"
-    placeholder={$authStore.user
-      ? "Write your thoughts..."
-      : "Login to leave a comment"}
-    disabled={!$authStore.user}
-  />
-  <button
-    on:click={() => handleAddComment()}
-    type="button"
-    class="self-end text-lg primary-btn px-4 py-1 "
-    disabled={!$authStore.user || !currentComment}
-  >
-    Submit
-  </button>
+  {#if previewMode}
+    <p class="text-base prose max-w-none bg-gray-100 px-6 py-2">
+      <SvelteMarkdown source={currentComment || "Nothing to preview"} />
+    </p>
+  {:else}
+    <textarea
+      bind:value={currentComment}
+      class="border-gray-400 rounded-md w-full form-textarea font-sans h-24 disabled:cursor-not-allowed"
+      placeholder={$authStore.user
+        ? "Write your thoughts..."
+        : "Login to leave a comment"}
+      disabled={!$authStore.user}
+    />
+  {/if}
+
+  <div class="self-end space-x-4">
+    <button
+      on:click={() => {
+        previewMode = !previewMode;
+      }}
+      class="text-lg bg-primary-100 hover:bg-primary-200 text-primary-800 px-4 py-1 rounded-md disabled:bg-gray-100 disabled:hover:bg-gray-100 disabled:cursor-not-allowed disabled:text-gray-600"
+      disabled={!$authStore.user || !currentComment}
+    >
+      {previewMode ? "Edit" : "Preview"}
+    </button>
+    <button
+      on:click={() => handleAddComment()}
+      type="button"
+      class="text-lg primary-btn px-4 py-1"
+      disabled={!$authStore.user || !currentComment}
+    >
+      Submit
+    </button>
+  </div>
   {#if Object.keys(users).length}
     <div class="space-y-8">
       {#each comments as comment (comment.id)}
