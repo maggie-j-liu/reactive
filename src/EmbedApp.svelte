@@ -100,6 +100,9 @@
     if (!$authStore.user || loadingCounts || loadingReacts) {
       return;
     }
+    console.log($authStore.user);
+    console.log(loadingCounts);
+    console.log(loadingReacts);
     if (userReacts.includes(reaction)) {
       removeReact(reaction);
     } else {
