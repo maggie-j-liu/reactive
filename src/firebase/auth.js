@@ -25,16 +25,16 @@ export const initAuth = () => {
   };
   const logout = () => auth.signOut();
 
-  const user = readable(null, (set) => {
+  const authStore = readable({ user: null, loading: true }, (set) => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
-        set(user);
+        set({ user: user, loading: false });
       } else {
-        set(null);
+        set({ user: null, loading: false });
       }
     });
     return unsubscribe;
   });
 
-  return { user, loginWithGoogle, logout };
+  return { authStore, loginWithGoogle, logout };
 };

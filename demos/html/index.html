@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Reactive Widget Demo</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Your name" />
+    <meta name="description" content="Brief description" />
+    <style>
+      #reactive_widget {
+        max-width: 75%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Here's a HTML demo for Reactive, an easy to use reaction widget.</h1>
+    <div id="reactive_widget"></div>
+    <script src="../../dist/bundle.js"></script>
+    <script>
+      reactive.install({
+        firebaseConfig: {
+          apiKey: "AIzaSyAux7Beoq9hQiT4TgQGnyNWR3_BwTukmaU",
+          authDomain: "reactive-db9e1.firebaseapp.com",
+          databaseURL: "https://reactive-db9e1-default-rtdb.firebaseio.com",
+          projectId: "reactive-db9e1",
+          storageBucket: "reactive-db9e1.appspot.com",
+          messagingSenderId: "248078740379",
+          appId: "1:248078740379:web:bebe06abacef70e4b50f3e",
+        },
+        page: "html-demo",
+        reactionText:
+          'Use `reactionText` to specify what you want shown here. The default is "Did you enjoy this post? Leave your reaction below!"',
+        reactions: ["🦄", "😎", "😶‍🌫️", "😼"],
+      });
+    </script>
+  </body>
+</html>

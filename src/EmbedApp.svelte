@@ -5,10 +5,11 @@
   import "firebase/database";
   import LogOut from "./components/LogOut.svelte";
   import { encode } from "firebase-encode";
+  import TailwindGlobal from "./components/TailwindGlobal.svelte";
 
   export let firebaseConfig;
   export let reactions = ["😭", "😕", "😀", "🤩"];
-  export let page = window.location.pathname;
+  export let page = window.location.pathname.replace(/\/+$/, "");
   export let reactionText =
     "Did you enjoy this post? Leave your reaction below!";
 
@@ -16,10 +17,10 @@
     throw new Error("No firebaseConfig was provided");
   }
   firebase.initializeApp(firebaseConfig);
-  let user, loginWithGoogle, logout;
+  let authStore, loginWithGoogle, logout;
   try {
     const auth = initAuth();
-    user = auth.user;
+    authStore = auth.authStore;
     loginWithGoogle = auth.loginWithGoogle;
     logout = auth.logout;
   } catch (error) {
@@ -44,17 +45,19 @@
     loadingCounts = false;
   };
 
-  $: console.log("user", $user);
+  $: console.log("user", $authStore.user);
 
-  $: if ($user) {
-    db.ref(`users/${$user.uid}/pages/${encode(page)}/reactions`)
-      .once("value")
-      .then((snap) => snap.val())
-      .then((r) => updateUserReacts(r ?? {}));
+  $: {
     db.ref(`posts/${encode(page)}/reactions/count`)
       .once("value")
       .then((snap) => snap.val())
       .then((r) => updateReactCounts(r ?? {}));
+    if ($authStore.user) {
+      db.ref(`users/${$authStore.user.uid}/pages/${encode(page)}/reactions`)
+        .once("value")
+        .then((snap) => snap.val())
+        .then((r) => updateUserReacts(r ?? {}));
+    }
   }
 
   const addReact = async (reaction) => {
@@ -62,13 +65,15 @@
     reactCounts[reaction]++;
     reactCounts = { ...reactCounts };
     const pageReactionsPath = `posts/${encode(page)}/reactions`;
-    const usersReactionsPath = `users/${$user.uid}/pages/${encode(
+    const usersReactionsPath = `users/${$authStore.user.uid}/pages/${encode(
       page
     )}/reactions`;
     const updates = {};
     updates[`${pageReactionsPath}/count/${reaction}`] =
       firebase.database.ServerValue.increment(1);
-    updates[`${pageReactionsPath}/users/${reaction}/${$user.uid}`] = true;
+    updates[
+      `${pageReactionsPath}/users/${reaction}/${$authStore.user.uid}`
+    ] = true;
     updates[`${usersReactionsPath}/${reaction}`] = true;
     db.ref().update(updates);
   };
@@ -78,13 +83,14 @@
     reactCounts[reaction]--;
     reactCounts = { ...reactCounts };
     const pageReactionsPath = `posts/${encode(page)}/reactions`;
-    const usersReactionsPath = `users/${$user.uid}/pages/${encode(
+    const usersReactionsPath = `users/${$authStore.user.uid}/pages/${encode(
       page
     )}/reactions`;
     const updates = {};
     updates[`${pageReactionsPath}/count/${reaction}`] =
       firebase.database.ServerValue.increment(-1);
-    updates[`${pageReactionsPath}/users/${reaction}/${$user.uid}`] = null;
+    updates[`${pageReactionsPath}/users/${reaction}/${$authStore.user.uid}`] =
+      null;
     updates[`${usersReactionsPath}/${reaction}`] = null;
     db.ref().update(updates);
   };
@@ -99,10 +105,10 @@
 </script>
 
 <main class="w-full mx-auto flex flex-col items-center my-16">
-  {#if $user}
+  {#if $authStore.user}
     <div class="flex gap-10 items-center">
       <h2 class="text-3xl font-bold">
-        Hi <span class="text-primary-600">{$user.displayName}</span> 👋!
+        Hi <span class="text-primary-600">{$authStore.user.displayName}</span> 👋!
       </h2>
 
       <button
@@ -114,51 +120,57 @@
         Logout
       </button>
     </div>
-  {:else}
+  {:else if !$authStore.loading}
     <div>
-      <button type="button" on:click={loginWithGoogle} class="primary-btn"
-        >Login</button
+      <button
+        type="button"
+        on:click={loginWithGoogle}
+        class="primary-btn text-md"
       >
+        Login
+      </button>
     </div>
+  {:else}
+    <div class="h-9" />
   {/if}
-  {#if !loadingReacts}
-    <h3 class="text-2xl mt-4 font-medium">{reactionText}</h3>
-    <div class="flex gap-4 text-2xl mt-3">
-      {#each reactions as reaction, i}
-        <button
-          key={i}
-          type="button"
-          on:click={() => handleReact(reaction)}
-          class={`${
-            userReacts.includes(reaction)
-              ? "bg-primary-200 hover:bg-primary-100"
-              : "bg-white hover:bg-primary-50"
-          } px-3 py-1.5 rounded-lg ring-1 ring-primary-500 hover:ring-2 hover:shadow-md `}
-        >
-          <span class="mr-2">
-            {reaction}
-          </span>
-          {loadingCounts ? "-" : reactCounts[reaction]}
-        </button>
-      {/each}
-    </div>
-  {/if}
+  <h3 class="text-2xl mt-4 font-medium">{reactionText}</h3>
+  <div class="flex gap-4 text-2xl mt-3">
+    {#each reactions as reaction, i}
+      <button
+        key={i}
+        type="button"
+        on:click={() => handleReact(reaction)}
+        class={`${
+          userReacts.includes(reaction)
+            ? "bg-primary-200 hover:bg-primary-100"
+            : "bg-white hover:bg-primary-50"
+        } px-3 py-1.5 rounded-lg ring-1 ring-primary-500 hover:ring-2 hover:shadow-md `}
+      >
+        <span class="mr-2">
+          {reaction}
+        </span>
+        {loadingCounts ? "-" : reactCounts[reaction]}
+      </button>
+    {/each}
+  </div>
 </main>
 
 <style lang="postcss">
   @tailwind base;
   @tailwind components;
   @tailwind utilities;
-  main {
-    margin: 0;
-    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-      "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
-      "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
-      "Noto Color Emoji";
-    line-height: 1.5;
-    -moz-tab-size: 4;
-    tab-size: 4;
-    -webkit-text-size-adjust: 100%;
+  @layer base {
+    main {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+        "Noto Color Emoji";
+      line-height: 1.5;
+      -moz-tab-size: 4;
+      tab-size: 4;
+      -webkit-text-size-adjust: 100%;
+    }
   }
   .primary-btn {
     @apply bg-gradient-to-r from-primary-100 hover:from-primary-200 via-blue-100 hover:via-blue-200 to-purple-100 hover:to-purple-200 text-primary-900 hover:bg-primary-100 rounded-md py-1 px-2;
