@@ -4,8 +4,8 @@
   import "firebase/auth";
   import "firebase/database";
   import LogOut from "./components/LogOut.svelte";
-  import { encode } from "firebase-encode";
   import Reactions from "./components/Reactions.svelte";
+  import Comments from "./components/Comments.svelte";
 
   export let firebaseConfig;
   export let reactions = ["😭", "😕", "😀", "🤩"];
@@ -30,8 +30,6 @@
   } catch (error) {
     throw error;
   }
-
-  $: console.log("user", $authStore.user);
 </script>
 
 <main class="w-full mx-auto flex flex-col items-center my-16">
@@ -66,6 +64,7 @@
   {/if}
   <h3 class="text-2xl mt-4 font-medium">{reactionText}</h3>
   <Reactions {page} {reactions} />
+  <Comments {page} />
 </main>
 
 <style lang="postcss">

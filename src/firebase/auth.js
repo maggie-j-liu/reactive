@@ -15,7 +15,7 @@ export const initAuth = () => {
         }
         if (additionalUserInfo.isNewUser) {
           const db = firebase.database();
-          const userInfoRef = db.ref(`users/${user.uid}/info`);
+          const userInfoRef = db.ref(`users/info/${user.uid}`);
           await userInfoRef.set({
             name: user.displayName,
             photo: user.photoURL,

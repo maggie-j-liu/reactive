@@ -37,15 +37,13 @@
     loadingCounts = false;
   };
 
-  $: console.log("user", $authStore.user);
-
   $: {
     db.ref(`posts/${encode(page)}/reactions/count`)
       .once("value")
       .then((snap) => snap.val())
       .then((r) => updateReactCounts(r ?? {}));
     if ($authStore.user) {
-      db.ref(`users/${$authStore.user.uid}/pages/${encode(page)}/reactions`)
+      db.ref(`users/activity/${$authStore.user.uid}/${encode(page)}/reactions`)
         .once("value")
         .then((snap) => snap.val())
         .then((r) => updateUserReacts(r ?? {}));
@@ -59,7 +57,7 @@
     reactCounts[reaction]++;
     reactCounts = { ...reactCounts };
     const pageReactionsPath = `posts/${encode(page)}/reactions`;
-    const usersReactionsPath = `users/${$authStore.user.uid}/pages/${encode(
+    const usersReactionsPath = `users/activity/${$authStore.user.uid}/${encode(
       page
     )}/reactions`;
     const updates = {};
@@ -77,7 +75,7 @@
     reactCounts[reaction]--;
     reactCounts = { ...reactCounts };
     const pageReactionsPath = `posts/${encode(page)}/reactions`;
-    const usersReactionsPath = `users/${$authStore.user.uid}/pages/${encode(
+    const usersReactionsPath = `users/activity/${$authStore.user.uid}/${encode(
       page
     )}/reactions`;
     const updates = {};
@@ -93,9 +91,6 @@
     if (!$authStore.user || loadingCounts || loadingReacts) {
       return;
     }
-    console.log($authStore.user);
-    console.log(loadingCounts);
-    console.log(loadingReacts);
     if (userReacts.includes(reaction)) {
       removeReact(reaction);
     } else {
