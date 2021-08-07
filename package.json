@@ -12,7 +12,8 @@
   "files": [
     "public/dist/index.js",
     "public/dist/index.mjs",
-    "src/embed.js"
+    "src/embed.js",
+    "src"
   ],
   "main": "public/dist/index.js",
   "module": "public/dist/index.mjs",
