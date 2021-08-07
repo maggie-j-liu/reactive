@@ -17,7 +17,9 @@
   if (!firebaseConfig) {
     throw new Error("No firebaseConfig was provided");
   }
-  firebase.initializeApp(firebaseConfig);
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }
   let authStore, loginWithGoogle, logout;
   try {
     const auth = initAuth();
