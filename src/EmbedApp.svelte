@@ -13,7 +13,7 @@
     ? window.location.pathname
     : window.location.pathname + "/";
   export let reactionText =
-    "Did you enjoy this post? Leave your reaction below!";
+    "Did you enjoy this post? Leave your reactions below!";
 
   if (!firebaseConfig) {
     throw new Error("No firebaseConfig was provided");
