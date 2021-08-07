@@ -10,9 +10,9 @@
     "start": "sirv public --no-clear"
   },
   "files": [
-    "public/dist/index.js",
-    "public/dist/index.mjs",
-    "src/embed.js"
+    "public",
+    "public",
+    "src"
   ],
   "main": "public/dist/index.js",
   "module": "public/dist/index.mjs",
