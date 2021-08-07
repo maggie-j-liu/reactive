@@ -57,7 +57,7 @@
       >
         Login
       </button>
-      to add reactions.
+      to add reactions and comments.
     </div>
   {:else}
     <div class="h-9" />

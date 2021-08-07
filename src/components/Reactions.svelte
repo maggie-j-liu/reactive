@@ -99,7 +99,7 @@
   };
 </script>
 
-<div class="flex gap-4 text-2xl mt-3">
+<div class="flex gap-4 text-2xl mt-8">
   {#each reactions as reaction, i (i)}
     <button
       type="button"

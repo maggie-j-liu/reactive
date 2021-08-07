@@ -28,13 +28,16 @@
   const db = firebase.database();
 
   let comments = [];
+  let commentsLoaded = false;
   let currentComment = "";
   let users = {};
+  let usersLoaded = false;
   let previewMode = false;
   let commentLikes = [];
 
   const updateComments = (com) => {
     comments = com;
+    commentsLoaded = true;
   };
 
   const updateCommentLikes = (likes) => {
@@ -47,6 +50,7 @@
         .ref("users/info")
         .once("value")
         .then((snap) => snap.val())) ?? {};
+    usersLoaded = true;
   });
 
   $: {
@@ -157,7 +161,7 @@
   };
 </script>
 
-<div class="flex flex-col gap-4 mt-6 w-3/4">
+<div class="flex flex-col gap-4 mt-16 w-3/4">
   {#if previewMode}
     <p class="text-gray-600">Add a comment (markdown is supported)</p>
     <p class="text-base prose max-w-none bg-gray-100 px-6 py-4">
@@ -196,7 +200,22 @@
       Submit
     </button>
   </div>
-  {#if Object.keys(users).length}
+  {#if usersLoaded}
+    <div class="mt-4">
+      {commentsLoaded ? comments.length : "-"} comments
+      <span class="mx-4 text-lg">|</span>
+      <em class="text-gray-600">
+        Powered by
+        <a
+          href="https://github.com/maggie-j-liu/reactive"
+          rel="noreferrer"
+          target="_blank"
+          class="text-primary-500 font-medium hover:underline"
+        >
+          Reactive
+        </a>
+      </em>
+    </div>
     <div class="space-y-8">
       {#each comments as comment (comment.id)}
         <div class="flex gap-4">

@@ -6,7 +6,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@maggieliu/reactive": "^1.0.3",
+    "@maggieliu/reactive": "^1.0.5",
     "classnames": "2.2.6",
     "date-fns": "2.16.1",
     "gray-matter": "4.0.2",
