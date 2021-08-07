@@ -17,8 +17,11 @@ export const initAuth = () => {
           const db = firebase.database();
           const userInfoRef = db.ref(`users/info/${user.uid}`);
           await userInfoRef.set({
-            name: user.displayName,
+            name: user.displayName.split(" ")[0],
             photo: user.photoURL,
+          });
+          await user.updateProfile({
+            displayName: user.displayName.split(" ")[0],
           });
         }
       });
