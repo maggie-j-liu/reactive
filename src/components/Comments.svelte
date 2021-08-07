@@ -89,12 +89,25 @@
     Submit
   </button>
   {#if Object.keys(users).length}
-    {#each comments as comment (comment.id)}
-      <div>
-        {users[comment.user].name}
-        {comment.text}
-      </div>
-    {/each}
+    <div class="space-y-8">
+      {#each comments as comment (comment.id)}
+        <div class="flex gap-4">
+          <img
+            src={users[comment.user].photo}
+            alt="{users[comment.user].name}'s profile picture"
+            class="h-12 w-12 rounded-full"
+          />
+          <div class="bg-primary-50 flex-grow px-6 py-2">
+            <h4 class="text-lg text-primary-800 mb-2">
+              {users[comment.user].name}
+            </h4>
+            <p class="text-xl">
+              {comment.text}
+            </p>
+          </div>
+        </div>
+      {/each}
+    </div>
   {/if}
 </div>
 
