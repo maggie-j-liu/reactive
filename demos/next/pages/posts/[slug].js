@@ -11,7 +11,7 @@ import Head from "next/head";
 import { CMS_NAME } from "../../lib/constants";
 import markdownToHtml from "../../lib/markdownToHtml";
 import { useEffect } from "react";
-import Script from "next/script";
+import reactive from "reactive";
 
 export default function Post({ post, morePosts, preview }) {
   const config = {
@@ -25,12 +25,9 @@ export default function Post({ post, morePosts, preview }) {
   };
 
   useEffect(() => {
-    // install on the client
-    if (typeof reactive !== "undefined") {
-      reactive.install({
-        firebaseConfig: config,
-      });
-    }
+    reactive.install({
+      firebaseConfig: config,
+    });
   }, []);
 
   const router = useRouter();
@@ -61,16 +58,6 @@ export default function Post({ post, morePosts, preview }) {
               />
               <PostBody content={post.content} />
               <div id="reactive_widget" />
-
-              <Script
-                src="https://reactive-kappa.vercel.app/dist/bundle.js"
-                onLoad={() => {
-                  // load for the first render (from server)
-                  reactive.install({
-                    firebaseConfig: config,
-                  });
-                }}
-              />
             </article>
           </>
         )}
