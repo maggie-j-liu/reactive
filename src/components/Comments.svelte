@@ -85,22 +85,34 @@
     currentComment = "";
     previewMode = false;
   };
+
+  const handleDeleteComment = async (comment) => {
+    if (!$authStore.user || !(comment.user == $authStore.user.uid)) {
+      return;
+    }
+    await db.ref(`posts/${encode(page)}/comments/${comment.id}`).set(null);
+    comments = comments.filter((c) => c.id !== comment.id);
+  };
 </script>
 
-<div class="flex flex-col gap-4 text-2xl mt-3 w-3/4">
+<div class="flex flex-col gap-4 mt-6 w-3/4">
   {#if previewMode}
+    <p class="text-gray-600">Add a comment (markdown is supported)</p>
     <p class="text-base prose max-w-none bg-gray-100 px-6 py-2">
       <SvelteMarkdown source={currentComment || "Nothing to preview"} />
     </p>
   {:else}
-    <textarea
-      bind:value={currentComment}
-      class="border-gray-400 rounded-md w-full form-textarea font-sans h-24 disabled:cursor-not-allowed"
-      placeholder={$authStore.user
-        ? "Write your thoughts..."
-        : "Login to leave a comment"}
-      disabled={!$authStore.user}
-    />
+    <label>
+      <p class="text-gray-600">Add a comment (markdown is supported)</p>
+      <textarea
+        bind:value={currentComment}
+        class="border-gray-400 rounded-md w-full form-textarea font-sans h-28 disabled:cursor-not-allowed"
+        placeholder={$authStore.user
+          ? "Write your thoughts..."
+          : "Login to leave a comment"}
+        disabled={!$authStore.user}
+      />
+    </label>
   {/if}
 
   <div class="self-end space-x-4">
@@ -131,7 +143,7 @@
             alt="{users[comment.user].name}'s profile picture"
             class="h-12 w-12 rounded-full"
           />
-          <div class="bg-primary-50 flex-grow px-6 py-2">
+          <div class="bg-primary-50 flex-grow px-6 py-4 relative">
             <h4 class="text-lg text-primary-800 mb-2 font-medium">
               {users[comment.user].name}
               <span class="text-base text-gray-400 font-normal"
@@ -141,6 +153,30 @@
             <p class="text-base prose max-w-none">
               <SvelteMarkdown source={comment.text} />
             </p>
+            {#if $authStore.user && comment.user == $authStore.user.uid}
+              <button
+                class="absolute right-2 bottom-2 hover:bg-red-100/60 duration-150 px-2 py-2 rounded-full"
+                on:click={() => handleDeleteComment(comment)}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class=" h-6 w-6 text-red-600"
+                >
+                  <polyline points="3 6 5 6 21 6" />
+                  <path
+                    d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+                  />
+                  <line x1="10" y1="11" x2="10" y2="17" />
+                  <line x1="14" y1="11" x2="14" y2="17" />
+                </svg>
+              </button>
+            {/if}
           </div>
         </div>
       {/each}
