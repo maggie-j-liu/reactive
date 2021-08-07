@@ -5,11 +5,12 @@
   import "firebase/database";
   import LogOut from "./components/LogOut.svelte";
   import { encode } from "firebase-encode";
-  import TailwindGlobal from "./components/TailwindGlobal.svelte";
 
   export let firebaseConfig;
   export let reactions = ["😭", "😕", "😀", "🤩"];
-  export let page = window.location.pathname.replace(/\/+$/, "");
+  export let page = window.location.pathname.endsWith("/")
+    ? window.location.pathname
+    : window.location.pathname + "/";
   export let reactionText =
     "Did you enjoy this post? Leave your reaction below!";
 
@@ -96,6 +97,9 @@
   };
 
   const handleReact = (reaction) => {
+    if (!$authStore.user || loadingCounts || loadingReacts) {
+      return;
+    }
     if (userReacts.includes(reaction)) {
       removeReact(reaction);
     } else {
@@ -129,6 +133,7 @@
       >
         Login
       </button>
+      to add reactions.
     </div>
   {:else}
     <div class="h-9" />
