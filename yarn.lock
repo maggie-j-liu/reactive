@@ -1138,6 +1138,11 @@ fill-range@^7.0.1:
   dependencies:
     to-regex-range "^5.0.1"
 
+firebase-encode@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/firebase-encode/-/firebase-encode-0.0.5.tgz#3184d2d53a8d9b41a3ee9f27274554156d750905"
+  integrity sha1-MYTS1TqNm0Gj7p8nJ0VUFW11CQU=
+
 firebase@^8.9.0:
   version "8.9.0"
   resolved "https://registry.yarnpkg.com/firebase/-/firebase-8.9.0.tgz#7a886716c32302671c1ac43d758b81b01cf41ae9"

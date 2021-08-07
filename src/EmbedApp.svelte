@@ -3,19 +3,146 @@
   import firebase from "firebase/app";
   import "firebase/auth";
   import "firebase/database";
+  import LogOut from "./components/LogOut.svelte";
+  import { encode } from "firebase-encode";
+
   export let firebaseConfig;
+  export let reactions = ["😭", "😕", "😀", "🤩"];
+  export let page = window.location.pathname;
+  export let reactionText =
+    "Did you enjoy this post? Leave your reaction below!";
+
   if (!firebaseConfig) {
     throw new Error("No firebaseConfig was provided");
   }
   firebase.initializeApp(firebaseConfig);
+  let user, loginWithGoogle, logout;
+  try {
+    const auth = initAuth();
+    user = auth.user;
+    loginWithGoogle = auth.loginWithGoogle;
+    logout = auth.logout;
+  } catch (error) {
+    throw error;
+  }
+  const db = firebase.database();
+  let userReacts = [];
+  let reactCounts = {};
+  reactions.forEach((reaction) => (reactCounts[reaction] = 0));
+  let loadingReacts = true;
+  let loadingCounts = true;
+
+  const updateUserReacts = (r) => {
+    userReacts = Object.keys(r);
+    loadingReacts = false;
+  };
+
+  const updateReactCounts = (r) => {
+    Object.entries(r).forEach(([reactionName, count]) => {
+      reactCounts[reactionName] = count;
+    });
+    loadingCounts = false;
+  };
+
+  $: console.log("user", $user);
+
+  $: if ($user) {
+    db.ref(`users/${$user.uid}/pages/${encode(page)}/reactions`)
+      .once("value")
+      .then((snap) => snap.val())
+      .then((r) => updateUserReacts(r ?? {}));
+    db.ref(`posts/${encode(page)}/reactions/count`)
+      .once("value")
+      .then((snap) => snap.val())
+      .then((r) => updateReactCounts(r ?? {}));
+  }
+
+  const addReact = async (reaction) => {
+    userReacts = [...userReacts, reaction];
+    reactCounts[reaction]++;
+    reactCounts = { ...reactCounts };
+    const pageReactionsPath = `posts/${encode(page)}/reactions`;
+    const usersReactionsPath = `users/${$user.uid}/pages/${encode(
+      page
+    )}/reactions`;
+    const updates = {};
+    updates[`${pageReactionsPath}/count/${reaction}`] =
+      firebase.database.ServerValue.increment(1);
+    updates[`${pageReactionsPath}/users/${reaction}/${$user.uid}`] = true;
+    updates[`${usersReactionsPath}/${reaction}`] = true;
+    db.ref().update(updates);
+  };
+
+  const removeReact = async (reaction) => {
+    userReacts = userReacts.filter((r) => r !== reaction);
+    reactCounts[reaction]--;
+    reactCounts = { ...reactCounts };
+    const pageReactionsPath = `posts/${encode(page)}/reactions`;
+    const usersReactionsPath = `users/${$user.uid}/pages/${encode(
+      page
+    )}/reactions`;
+    const updates = {};
+    updates[`${pageReactionsPath}/count/${reaction}`] =
+      firebase.database.ServerValue.increment(-1);
+    updates[`${pageReactionsPath}/users/${reaction}/${$user.uid}`] = null;
+    updates[`${usersReactionsPath}/${reaction}`] = null;
+    db.ref().update(updates);
+  };
+
+  const handleReact = (reaction) => {
+    if (userReacts.includes(reaction)) {
+      removeReact(reaction);
+    } else {
+      addReact(reaction);
+    }
+  };
 </script>
 
-<main>
-  <h1 class="text-red-500">Hello world!</h1>
-  <p>
-    Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn
-    how to build Svelte apps.
-  </p>
+<main class="w-full mx-auto flex flex-col items-center my-16">
+  {#if $user}
+    <div class="flex gap-10 items-center">
+      <h2 class="text-3xl font-bold">
+        Hi <span class="text-primary-600">{$user.displayName}</span> 👋!
+      </h2>
+
+      <button
+        type="button"
+        on:click={logout}
+        class="flex items-center gap-2 text-md primary-btn"
+      >
+        <LogOut />
+        Logout
+      </button>
+    </div>
+  {:else}
+    <div>
+      <button type="button" on:click={loginWithGoogle} class="primary-btn"
+        >Login</button
+      >
+    </div>
+  {/if}
+  {#if !loadingReacts}
+    <h3 class="text-2xl mt-4 font-medium">{reactionText}</h3>
+    <div class="flex gap-4 text-2xl mt-3">
+      {#each reactions as reaction, i}
+        <button
+          key={i}
+          type="button"
+          on:click={() => handleReact(reaction)}
+          class={`${
+            userReacts.includes(reaction)
+              ? "bg-primary-200 hover:bg-primary-100"
+              : "bg-white hover:bg-primary-50"
+          } px-3 py-1.5 rounded-lg ring-1 ring-primary-500 hover:ring-2 hover:shadow-md `}
+        >
+          <span class="mr-2">
+            {reaction}
+          </span>
+          {loadingCounts ? "-" : reactCounts[reaction]}
+        </button>
+      {/each}
+    </div>
+  {/if}
 </main>
 
 <style lang="postcss">
@@ -32,5 +159,8 @@
     -moz-tab-size: 4;
     tab-size: 4;
     -webkit-text-size-adjust: 100%;
+  }
+  .primary-btn {
+    @apply bg-gradient-to-r from-primary-100 hover:from-primary-200 via-blue-100 hover:via-blue-200 to-purple-100 hover:to-purple-200 text-primary-900 hover:bg-primary-100 rounded-md py-1 px-2;
   }
 </style>

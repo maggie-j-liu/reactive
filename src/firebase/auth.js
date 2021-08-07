@@ -10,7 +10,6 @@ export const initAuth = () => {
     return auth
       .signInWithPopup(provider)
       .then(async ({ user, additionalUserInfo }) => {
-        console.log(additionalUserInfo);
         if (!user) {
           return;
         }

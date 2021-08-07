@@ -3,5 +3,7 @@
   import TailwindGlobal from "./components/TailwindGlobal.svelte";
 </script>
 
-<EmbedApp {...$$props} />
+<div class="reactive_widget w-screen">
+  <EmbedApp {...$$props} />
+</div>
 <TailwindGlobal />
