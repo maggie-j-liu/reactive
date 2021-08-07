@@ -12,7 +12,7 @@
     "next": "latest",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "reactive": "maggie-j-liu/reactive#2355e3874d48100bc163868242e79c0c08ccee98",
+    "reactive": "maggie-j-liu/reactive#41c9ab017099ca6d1eed206d04b507cafdcfe6ef",
     "remark": "13.0.0",
     "remark-html": "13.0.1"
   },
