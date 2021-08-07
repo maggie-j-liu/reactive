@@ -37,9 +37,11 @@
   },
   "dependencies": {
     "@tailwindcss/forms": "^0.3.3",
+    "@tailwindcss/typography": "^0.4.1",
     "firebase": "^8.9.0",
     "firebase-encode": "^0.0.5",
     "javascript-time-ago": "^2.3.8",
-    "sirv-cli": "^1.0.0"
+    "sirv-cli": "^1.0.0",
+    "svelte-markdown": "^0.1.10"
   }
 }

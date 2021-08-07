@@ -7,6 +7,7 @@
   import { onMount } from "svelte";
   import TimeAgo from "javascript-time-ago";
   import en from "javascript-time-ago/locale/en";
+  import SvelteMarkdown from "svelte-markdown";
 
   TimeAgo.addDefaultLocale(en);
   const timeAgo = new TimeAgo("en-US");
@@ -117,8 +118,8 @@
                 >commented {timeAgo.format(comment.timestamp)}
               </span>
             </h4>
-            <p class="text-xl">
-              {comment.text}
+            <p class="text-base prose max-w-none">
+              <SvelteMarkdown source={comment.text} />
             </p>
           </div>
         </div>
