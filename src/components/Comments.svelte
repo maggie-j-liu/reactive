@@ -21,7 +21,7 @@
   }
   const db = firebase.database();
 
-  let comments = {};
+  let comments = [];
   let currentComment = "";
   let users = {};
 
@@ -39,9 +39,21 @@
 
   $: {
     db.ref(`posts/${encode(page)}/comments`)
+      .orderByChild("timestamp")
       .once("value")
       .then((snap) => snap.val())
-      .then((c) => updateComments(c ?? {}));
+      .then((c) => {
+        updateComments(
+          Object.entries(c)
+            .map(([key, val]) => {
+              return {
+                id: key,
+                ...val,
+              };
+            })
+            .reverse()
+        );
+      });
   }
 
   const handleAddComment = () => {
@@ -54,14 +66,16 @@
       text: currentComment,
       timestamp: firebase.database.ServerValue.TIMESTAMP,
     }).key;
-    comments = {
-      ...comments,
-      [newCommentKey]: {
+    comments = [
+      {
+        id: newCommentKey,
         user: $authStore.user.uid,
         text: currentComment,
         timestamp: Date.now(),
       },
-    };
+      ...comments,
+    ];
+    currentComment = "";
   };
 </script>
 
@@ -75,10 +89,10 @@
     Submit
   </button>
   {#if Object.keys(users).length}
-    {#each Object.entries(comments) as [commentId, commentVal]}
-      <div key={commentId}>
-        {users[commentVal.user].name}
-        {commentVal.text}
+    {#each comments as comment (comment.id)}
+      <div>
+        {users[comment.user].name}
+        {comment.text}
       </div>
     {/each}
   {/if}

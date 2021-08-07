@@ -100,9 +100,8 @@
 </script>
 
 <div class="flex gap-4 text-2xl mt-3">
-  {#each reactions as reaction, i}
+  {#each reactions as reaction, i (i)}
     <button
-      key={i}
       type="button"
       on:click={() => handleReact(reaction)}
       class={`${
