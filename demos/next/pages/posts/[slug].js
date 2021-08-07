@@ -25,6 +25,7 @@ export default function Post({ post, morePosts, preview }) {
   };
 
   useEffect(() => {
+    console.log(reactive);
     reactive.install({
       firebaseConfig: config,
     });

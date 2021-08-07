@@ -56,7 +56,7 @@
       .then((snap) => snap.val())
       .then((c) => {
         updateComments(
-          Object.entries(c)
+          Object.entries(c ?? {})
             .map(([key, val]) => {
               return {
                 id: key,

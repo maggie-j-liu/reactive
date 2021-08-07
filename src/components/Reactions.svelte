@@ -31,7 +31,7 @@
   };
 
   const updateReactCounts = (r) => {
-    Object.entries(r).forEach(([reactionName, count]) => {
+    Object.entries(r ?? {}).forEach(([reactionName, count]) => {
       reactCounts[reactionName] = count;
     });
     loadingCounts = false;
