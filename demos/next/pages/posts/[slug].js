@@ -14,10 +14,6 @@ import { useEffect } from "react";
 import Script from "next/script";
 
 export default function Post({ post, morePosts, preview }) {
-  const router = useRouter();
-  if (!router.isFallback && !post?.slug) {
-    return <ErrorPage statusCode={404} />;
-  }
   const config = {
     apiKey: "AIzaSyAux7Beoq9hQiT4TgQGnyNWR3_BwTukmaU",
     authDomain: "reactive-db9e1.firebaseapp.com",
@@ -36,6 +32,11 @@ export default function Post({ post, morePosts, preview }) {
       });
     }
   }, []);
+
+  const router = useRouter();
+  if (!router.isFallback && !post?.slug) {
+    return <ErrorPage statusCode={404} />;
+  }
 
   return (
     <Layout preview={preview}>
