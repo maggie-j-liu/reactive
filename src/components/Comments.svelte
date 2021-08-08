@@ -161,7 +161,7 @@
   };
 </script>
 
-<div class="flex flex-col gap-4 mt-16 w-3/4">
+<div class="flex flex-col gap-4 mt-16 w-3/4 text-base">
   {#if previewMode}
     <p class="text-gray-600">Add a comment (markdown is supported)</p>
     <p class="text-base prose max-w-none bg-gray-100 px-6 py-4">
@@ -202,7 +202,8 @@
   </div>
   {#if usersLoaded}
     <div class="mt-4">
-      {commentsLoaded ? comments.length : "-"} comments
+      {commentsLoaded ? comments.length : "-"}{" "}
+      {commentsLoaded && comments.length == 1 ? "comment" : "comments"}
       <span class="mx-4 text-lg">|</span>
       <em class="text-gray-600">
         Powered by
