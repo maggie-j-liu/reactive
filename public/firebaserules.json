@@ -1,0 +1,43 @@
+{
+  "rules": {
+    ".read": true,
+    "posts": {
+      "$post": {
+        "reactions": {
+          "count": {
+            "$reaction": {
+              ".write": "auth != null && ((newData.val() > (data.val() == null ? 0 : data.val()) && !data.parent().parent().child('users').child($reaction).child(auth.uid).exists()) || (newData.val() < (data.val() == null ? 0 : data.val()) && data.parent().parent().child('users').child($reaction).child(auth.uid).val() == true))"
+            }
+          },
+          "users": {
+            "$reaction": {
+              "$uid": {
+                ".write": "auth != null && auth.uid == $uid"
+              }
+            }
+          }
+        },
+        "comments": {
+          "$commentId": {
+            ".write": "auth != null && (newData.child('user').val() == auth.uid || data.child('user').val() == auth.uid)",
+            "$field": {
+              ".write": "auth != null && ($field == 'likes' || newData.parent().child('user').val() == auth.uid || data.parent().child('user').val() == auth.uid)"
+            }
+          }
+        }
+      }
+    },
+    "users": {
+      "info": {
+        "$uid": {
+          ".write": "auth != null && auth.uid == $uid"
+        }
+      },
+      "activity": {
+        "$uid": {
+          ".write": "auth != null && auth.uid == $uid"
+        }
+      }
+    }
+  }
+}
