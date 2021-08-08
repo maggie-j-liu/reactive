@@ -1,7 +1,13 @@
 {
   "name": "@maggieliu/reactive",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "private": false,
+  "homepage": "https://github.com/maggie-j-liu/reactive",
+  "bugs": "https://github.com/owner/maggie-j-liu/reactive/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maggie-j-liu/reactive"
+  },
   "scripts": {
     "build": "rollup -c",
     "build:embed": "EMBED=true rollup -c",
