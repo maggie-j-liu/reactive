@@ -15,6 +15,5 @@ const install = ({ firebaseConfig, reactions, page, reactionText }) => {
 
 const reactive = {};
 reactive.install = install;
-reactive.version = "1.0.2";
 
 export default reactive;

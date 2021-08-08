@@ -106,8 +106,8 @@
       on:click={() => handleReact(reaction)}
       class={`${
         userReacts.includes(reaction)
-          ? "!bg-primary-200 hover:!bg-primary-100"
-          : "!bg-white hover:!bg-primary-50"
+          ? "bg-primary-200 hover:bg-primary-100 dark:!bg-primary-800 dark:hover:!bg-primary-600"
+          : "bg-white dark:!bg-gray-700 hover:bg-primary-50 dark:hover:!bg-primary-600"
       } !px-3 !py-1.5 !rounded-lg !ring-1 !ring-primary-500 hover:!ring-2 hover:!shadow-md`}
     >
       <span class="mr-2">

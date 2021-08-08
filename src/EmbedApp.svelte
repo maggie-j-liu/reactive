@@ -6,6 +6,7 @@
   import LogOut from "./components/LogOut.svelte";
   import Reactions from "./components/Reactions.svelte";
   import Comments from "./components/Comments.svelte";
+  import TailwindUtilsGlobal from "./components/TailwindUtilsGlobal.svelte";
 
   export let firebaseConfig;
   export let reactions = ["😭", "😕", "😀", "🤩"];
@@ -32,17 +33,19 @@
   }
 </script>
 
-<main class="w-full mx-auto flex flex-col items-center my-16">
+<main class="w-full mx-auto flex flex-col items-center my-16 dark:text-white">
   {#if $authStore.user}
     <div class="flex gap-10 items-center">
       <h2 class="text-3xl font-bold">
-        Hi <span class="text-primary-600">{$authStore.user.displayName}</span> 👋!
+        Hi <span class="text-primary-600 dark:text-primary-400"
+          >{$authStore.user.displayName}</span
+        > 👋!
       </h2>
 
       <button
         type="button"
         on:click={logout}
-        class="flex items-center gap-2 text-md primary-btn"
+        class="flex items-center gap-2 text-md primary-btn dark:from-primary-600 dark:hover:from-primary-500 dark:via-blue-500 dark:hover:via-blue-400 dark:to-purple-600 dark:hover:to-purple-500 dark:text-white"
       >
         <LogOut />
         Logout
@@ -53,7 +56,7 @@
       <button
         type="button"
         on:click={loginWithGoogle}
-        class="primary-btn text-md"
+        class="primary-btn text-md dark:from-primary-600 dark:hover:from-primary-500 dark:via-blue-500 dark:hover:via-blue-400 dark:to-purple-600 dark:hover:to-purple-500 dark:text-white"
       >
         Login
       </button>
@@ -66,6 +69,8 @@
   <Reactions {page} {reactions} />
   <Comments {page} />
 </main>
+
+<TailwindUtilsGlobal />
 
 <style lang="postcss">
   @tailwind base;

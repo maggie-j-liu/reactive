@@ -1,6 +1,6 @@
 {
   "name": "@maggieliu/reactive",
-  "version": "1.0.8",
+  "version": "1.1.0",
   "private": false,
   "homepage": "https://github.com/maggie-j-liu/reactive",
   "bugs": "https://github.com/owner/maggie-j-liu/reactive/issues",
@@ -38,15 +38,15 @@
     "rollup-plugin-terser": "^7.0.0",
     "svelte": "^3.0.0",
     "svelte-preprocess": "^4.7.4",
-    "tailwindcss": "^2.2.7"
-  },
-  "dependencies": {
+    "tailwindcss": "^2.2.7",
     "@tailwindcss/forms": "^0.3.3",
     "@tailwindcss/typography": "^0.4.1",
+    "svelte-markdown": "^0.1.10",
     "firebase": "^8.9.0",
     "firebase-encode": "^0.0.5",
-    "javascript-time-ago": "^2.3.8",
-    "sirv-cli": "^1.0.0",
-    "svelte-markdown": "^0.1.10"
+    "javascript-time-ago": "^2.3.8"
+  },
+  "dependencies": {
+    "sirv-cli": "^1.0.0"
   }
 }

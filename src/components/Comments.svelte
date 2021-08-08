@@ -161,18 +161,24 @@
   };
 </script>
 
-<div class="flex flex-col gap-4 mt-16 w-3/4 text-base">
+<div class="flex flex-col gap-4 mt-16 text-base w-full">
   {#if previewMode}
-    <p class="text-gray-600">Add a comment (markdown is supported)</p>
-    <p class="text-base prose max-w-none bg-gray-100 px-6 py-4">
+    <p class="text-gray-600 dark:!text-gray-200">
+      Add a comment (markdown is supported)
+    </p>
+    <p
+      class="text-base prose dark:!prose-dark max-w-none dark:!text-white bg-gray-100 dark:!bg-gray-700 px-6 py-4"
+    >
       <SvelteMarkdown source={currentComment || "Nothing to preview"} />
     </p>
   {:else}
     <label>
-      <p class="text-gray-600">Add a comment (markdown is supported)</p>
+      <p class="text-gray-600 dark:!text-gray-200">
+        Add a comment (markdown is supported)
+      </p>
       <textarea
         bind:value={currentComment}
-        class="border-gray-300 rounded-md w-full form-textarea font-sans h-28 disabled:cursor-not-allowed"
+        class="border-gray-300 dark:!border-gray-600 dark:!bg-gray-800 rounded-md w-full form-textarea font-sans h-28 disabled:cursor-not-allowed"
         placeholder={$authStore.user
           ? "Write your thoughts..."
           : "Login to leave a comment"}
@@ -186,7 +192,7 @@
       on:click={() => {
         previewMode = !previewMode;
       }}
-      class="text-lg bg-primary-100 hover:bg-primary-200 text-primary-800 px-4 py-1 rounded-md disabled:bg-gray-100 disabled:hover:bg-gray-100 disabled:cursor-not-allowed disabled:text-gray-600"
+      class="dark:!bg-primary-600 dark:hover:!bg-primary-500 dark:disabled:!bg-gray-500 dark:!text-white dark:disabled:!text-gray-300 text-lg bg-primary-100 hover:bg-primary-200 text-primary-800 px-4 py-1 rounded-md disabled:bg-gray-100 disabled:hover:bg-gray-100 disabled:cursor-not-allowed disabled:text-gray-600"
       disabled={!$authStore.user || !currentComment}
     >
       {previewMode ? "Edit" : "Preview"}
@@ -194,7 +200,7 @@
     <button
       on:click={() => handleAddComment()}
       type="button"
-      class="text-lg primary-btn px-4 py-1"
+      class="dark:!from-primary-600 dark:hover:!from-primary-500 dark:disabled:hover:!from-primary-600 dark:!via-blue-500 dark:hover:!via-blue-400 dark:disabled:hover:!via-blue-500 dark:!to-purple-600 dark:hover:!to-purple-500 dark:disabled:hover:!to-purple-600 dark:!text-white text-lg primary-btn px-4 py-1"
       disabled={!$authStore.user || !currentComment}
     >
       Submit
@@ -205,7 +211,7 @@
       {commentsLoaded ? comments.length : "-"}{" "}
       {commentsLoaded && comments.length == 1 ? "comment" : "comments"}
       <span class="mx-4 text-lg">|</span>
-      <em class="text-gray-600">
+      <em class="text-gray-600 dark:!text-gray-300">
         Powered by
         <a
           href="https://github.com/maggie-j-liu/reactive"
@@ -225,20 +231,24 @@
             alt="{users[comment.user].name}'s profile picture"
             class="h-12 w-12 rounded-full"
           />
-          <div class="bg-primary-50 flex-grow px-6 py-4">
-            <h4 class="text-lg text-primary-800 mb-2 font-medium">
+          <div class="bg-primary-50 dark:!bg-gray-700 flex-grow px-6 py-4">
+            <h4
+              class="text-lg text-primary-800 dark:!text-primary-300 mb-2 font-medium"
+            >
               {users[comment.user].name}
               <span class="text-base text-gray-400 font-normal"
                 >commented {timeAgo.format(comment.timestamp)}
               </span>
             </h4>
-            <p class="text-base prose max-w-none">
+            <p
+              class="text-base prose dark:!prose-dark max-w-none dark:!text-white"
+            >
               <SvelteMarkdown source={comment.text} />
             </p>
             <div class="w-full flex justify-end items-center gap-2">
               {#if $authStore.user && comment.user == $authStore.user.uid}
                 <button
-                  class="hover:bg-red-100/60 px-2 py-2 rounded-full"
+                  class="hover:bg-red-100/60 dark:hover:!bg-red-500/25 px-2 py-2 rounded-full"
                   on:click={() => handleDeleteComment(comment)}
                 >
                   <svg
@@ -249,7 +259,7 @@
                     stroke-width="2"
                     stroke-linecap="round"
                     stroke-linejoin="round"
-                    class=" h-6 w-6 text-red-600"
+                    class=" h-6 w-6 text-red-600 dark:!text-red-500"
                   >
                     <polyline points="3 6 5 6 21 6" />
                     <path
@@ -262,7 +272,7 @@
               {/if}
               {#if $authStore.user}
                 <button
-                  class="px-2 py-2 rounded-full hover:bg-pink-100/60 flex text-pink-600 font-semibold gap-2 items-center"
+                  class="px-2 py-2 rounded-full hover:bg-pink-100/60 dark:hover:!bg-pink-400/20 flex text-pink-600 dark:!text-pink-400 font-semibold gap-2 items-center"
                   on:click={() => handleLike(comment)}
                 >
                   <svg
@@ -275,7 +285,7 @@
                     stroke-width="2"
                     stroke-linecap="round"
                     stroke-linejoin="round"
-                    class="h-6 w-6 text-pink-600"
+                    class="h-6 w-6 text-pink-600 dark:!text-pink-400"
                   >
                     <path
                       d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
@@ -318,7 +328,7 @@
   @tailwind utilities;
   @layer utilities {
     .primary-btn {
-      @apply bg-gradient-to-r from-primary-100 hover:from-primary-200 via-blue-100 hover:via-blue-200 to-purple-100 hover:to-purple-200 text-primary-900 hover:bg-primary-100 rounded-md disabled:cursor-not-allowed disabled:saturate-50 disabled:hover:from-primary-100 disabled:hover:via-blue-100 disabled:hover:to-purple-100;
+      @apply bg-gradient-to-r from-primary-100 hover:from-primary-200 via-blue-100 hover:via-blue-200 to-purple-100 hover:to-purple-200 text-primary-900 hover:bg-primary-100 rounded-md disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:from-primary-100 disabled:hover:via-blue-100 disabled:hover:to-purple-100;
     }
   }
 </style>

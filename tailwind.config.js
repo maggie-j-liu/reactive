@@ -2,12 +2,28 @@ const colors = require("tailwindcss/colors");
 module.exports = {
   mode: "jit",
   purge: ["./src/**/*.{js,svelte}"],
-  darkMode: false, // or 'media' or 'class'
+  darkMode: "class", // or 'media' or 'class'
   theme: {
     extend: {
       colors: {
         primary: colors.sky,
       },
+      typography: (theme) => ({
+        dark: {
+          css: {
+            color: theme("colors.white"),
+            blockquote: {
+              color: "inherit",
+            },
+            strong: {
+              color: "inherit",
+            },
+            code: {
+              fontWeight: "inherit",
+            },
+          },
+        },
+      }),
     },
   },
   variants: {
