@@ -1,9 +1,8 @@
 <script>
   import { initAuth } from "../firebase/auth";
-  import firebase from "firebase/app";
-  import "firebase/auth";
-  import "firebase/database";
+  import { getDatabase, onValue, ref, increment } from "firebase/database";
   import { encode } from "firebase-encode";
+  import { update } from "@firebase/database";
 
   export let reactions = ["😭", "😕", "😀", "🤩"];
   export let page = window.location.pathname.endsWith("/")
@@ -18,7 +17,7 @@
   } catch (error) {
     throw error;
   }
-  const db = firebase.database();
+  const db = getDatabase();
   let userReacts = [];
   let reactCounts = {};
   reactions.forEach((reaction) => (reactCounts[reaction] = 0));
@@ -38,15 +37,28 @@
   };
 
   $: {
-    db.ref(`posts/${encode(page)}/reactions/count`)
-      .once("value")
-      .then((snap) => snap.val())
-      .then((r) => updateReactCounts(r ?? {}));
+    onValue(
+      ref(db, `posts/${encode(page)}/reactions/count`),
+      (snap) => {
+        updateReactCounts(snap.val() ?? {});
+      },
+      {
+        onlyOnce: true,
+      }
+    );
     if ($authStore.user) {
-      db.ref(`users/activity/${$authStore.user.uid}/${encode(page)}/reactions`)
-        .once("value")
-        .then((snap) => snap.val())
-        .then((r) => updateUserReacts(r ?? {}));
+      onValue(
+        ref(
+          db,
+          `users/activity/${$authStore.user.uid}/${encode(page)}/reactions`
+        ),
+        (snap) => {
+          updateUserReacts(snap.val() ?? {});
+        },
+        {
+          onlyOnce: true,
+        }
+      );
     } else {
       userReacts = [];
     }
@@ -61,13 +73,12 @@
       page
     )}/reactions`;
     const updates = {};
-    updates[`${pageReactionsPath}/count/${reaction}`] =
-      firebase.database.ServerValue.increment(1);
+    updates[`${pageReactionsPath}/count/${reaction}`] = increment(1);
     updates[
       `${pageReactionsPath}/users/${reaction}/${$authStore.user.uid}`
     ] = true;
     updates[`${usersReactionsPath}/${reaction}`] = true;
-    db.ref().update(updates);
+    update(ref(db), updates);
   };
 
   const removeReact = async (reaction) => {
@@ -79,12 +90,11 @@
       page
     )}/reactions`;
     const updates = {};
-    updates[`${pageReactionsPath}/count/${reaction}`] =
-      firebase.database.ServerValue.increment(-1);
+    updates[`${pageReactionsPath}/count/${reaction}`] = increment(-1);
     updates[`${pageReactionsPath}/users/${reaction}/${$authStore.user.uid}`] =
       null;
     updates[`${usersReactionsPath}/${reaction}`] = null;
-    db.ref().update(updates);
+    update(ref(db), updates);
   };
 
   const handleReact = (reaction) => {

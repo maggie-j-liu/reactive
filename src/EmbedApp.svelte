@@ -1,8 +1,6 @@
 <script>
   import { initAuth } from "./firebase/auth";
-  import firebase from "firebase/app";
-  import "firebase/auth";
-  import "firebase/database";
+  import { initializeApp, getApps } from "firebase/app";
   import LogOut from "./components/LogOut.svelte";
   import Reactions from "./components/Reactions.svelte";
   import Comments from "./components/Comments.svelte";
@@ -19,8 +17,9 @@
   if (!firebaseConfig) {
     throw new Error("No firebaseConfig was provided");
   }
-  if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
+  let firebaseApp;
+  if (!getApps().length) {
+    firebaseApp = initializeApp(firebaseConfig);
   }
   let authStore, loginWithGoogle, logout;
   try {

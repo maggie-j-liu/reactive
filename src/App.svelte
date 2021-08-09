@@ -1,7 +1,6 @@
 <script>
   import EmbedApp from "./EmbedApp.svelte";
   import TailwindGlobal from "./components/TailwindGlobal.svelte";
-  console.log("get theme");
   const storedTheme = localStorage.getItem("theme");
   let isDarkMode = storedTheme === "dark";
   const changeMode = (changeTo) => {

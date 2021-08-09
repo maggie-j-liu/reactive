@@ -1,8 +1,17 @@
 <script>
   import { initAuth } from "../firebase/auth";
-  import firebase from "firebase/app";
-  import "firebase/auth";
-  import "firebase/database";
+  import {
+    getDatabase,
+    onValue,
+    query,
+    push,
+    ref,
+    set,
+    serverTimestamp,
+    orderByChild,
+    increment,
+    update,
+  } from "firebase/database";
   import { encode } from "firebase-encode";
   import { onMount } from "svelte";
   import TimeAgo from "javascript-time-ago";
@@ -12,7 +21,6 @@
   TimeAgo.addDefaultLocale(en);
   const timeAgo = new TimeAgo("en-US");
 
-  console.log("comments");
   export let page = window.location.pathname.endsWith("/")
     ? window.location.pathname
     : window.location.pathname + "/";
@@ -25,7 +33,7 @@
   } catch (error) {
     throw error;
   }
-  const db = firebase.database();
+  const db = getDatabase();
 
   let comments = [];
   let commentsLoaded = false;
@@ -44,23 +52,29 @@
     commentLikes = Object.keys(likes);
   };
 
-  onMount(async () => {
-    users =
-      (await db
-        .ref("users/info")
-        .once("value")
-        .then((snap) => snap.val())) ?? {};
-    usersLoaded = true;
+  onMount(() => {
+    onValue(
+      ref(db, "users/info"),
+      (snap) => {
+        users = snap.val() ?? {};
+        usersLoaded = true;
+      },
+      {
+        onlyOnce: true,
+      }
+    );
   });
 
   $: {
-    db.ref(`posts/${encode(page)}/comments`)
-      .orderByChild("timestamp")
-      .once("value")
-      .then((snap) => snap.val())
-      .then((c) => {
+    const orderedCommentsRef = query(
+      ref(db, `posts/${encode(page)}/comments`),
+      orderByChild("timestamp")
+    );
+    onValue(
+      orderedCommentsRef,
+      (snap) => {
         updateComments(
-          Object.entries(c ?? {})
+          Object.entries(snap.val() ?? {})
             .map(([key, val]) => {
               return {
                 id: key,
@@ -69,15 +83,21 @@
             })
             .reverse()
         );
-      });
+      },
+      { onlyOnce: true }
+    );
 
     if ($authStore.user) {
-      db.ref(
-        `users/activity/${$authStore.user.uid}/${encode(page)}/commentLikes`
-      )
-        .once("value")
-        .then((snap) => snap.val())
-        .then((c) => updateCommentLikes(c ?? {}));
+      onValue(
+        ref(
+          db,
+          `users/activity/${$authStore.user.uid}/${encode(page)}/commentLikes`
+        ),
+        (snap) => {
+          updateCommentLikes(snap.val() ?? {});
+        },
+        { onlyOnce: true }
+      );
     } else {
       commentLikes = [];
     }
@@ -88,12 +108,13 @@
       return;
     }
     const pageCommentsPath = `posts/${encode(page)}/comments`;
-    const newCommentKey = db.ref(pageCommentsPath).push({
+    const newCommentKey = push(ref(db, pageCommentsPath), {
       user: $authStore.user.uid,
       text: currentComment,
-      timestamp: firebase.database.ServerValue.TIMESTAMP,
+      timestamp: serverTimestamp(),
       likes: 0,
     }).key;
+
     comments = [
       {
         id: newCommentKey,
@@ -112,7 +133,7 @@
     if (!$authStore.user || !(comment.user == $authStore.user.uid)) {
       return;
     }
-    await db.ref(`posts/${encode(page)}/comments/${comment.id}`).set(null);
+    await set(ref(db, `posts/${encode(page)}/comments/${comment.id}`), null);
     comments = comments.filter((c) => c.id !== comment.id);
   };
 
@@ -122,13 +143,13 @@
     }
     const updates = {};
     updates[`posts/${encode(page)}/comments/${comment.id}/likes`] =
-      firebase.database.ServerValue.increment(1);
+      increment(1);
     updates[
       `users/activity/${$authStore.user.uid}/${encode(page)}/commentLikes/${
         comment.id
       }`
     ] = true;
-    await db.ref().update(updates);
+    await update(ref(db), updates);
     comment.likes++;
     comments = [...comments];
     commentLikes = [...commentLikes, comment.id];
@@ -140,13 +161,13 @@
     }
     const updates = {};
     updates[`posts/${encode(page)}/comments/${comment.id}/likes`] =
-      firebase.database.ServerValue.increment(-1);
+      increment(-1);
     updates[
       `users/activity/${$authStore.user.uid}/${encode(page)}/commentLikes/${
         comment.id
       }`
     ] = null;
-    await db.ref().update(updates);
+    await update(ref(db), updates);
     comment.likes--;
     comments = [...comments];
     commentLikes = commentLikes.filter((comId) => comId !== comment.id);
