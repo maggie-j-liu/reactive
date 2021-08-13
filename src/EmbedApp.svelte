@@ -13,7 +13,7 @@
     : window.location.pathname + "/";
   export let reactionText =
     "Did you enjoy this post? Leave your reactions below!";
-
+  export let paymentPointer = "$ilp.uphold.com/LJmbPn7WD4JB";
   if (!firebaseConfig) {
     throw new Error("No firebaseConfig was provided");
   }
@@ -30,8 +30,17 @@
   } catch (error) {
     throw error;
   }
+  if (document.monetization) {
+    document.monetization.addEventListener("monetizationstart", () => {
+      console.log("started");
+      document.getElementById("exclusive").classList.remove("hidden");
+    });
+  }
 </script>
 
+<svelte:head>
+  <meta name="monetization" content={paymentPointer} />
+</svelte:head>
 <main class="w-full mx-auto flex flex-col items-center my-16 dark:text-white">
   {#if $authStore.user}
     <div class="flex gap-10 items-center">
@@ -40,7 +49,6 @@
           >{$authStore.user.displayName}</span
         > 👋!
       </h2>
-
       <button
         type="button"
         on:click={logout}
@@ -64,6 +72,9 @@
   {:else}
     <div class="h-9" />
   {/if}
+  <div class="hidden dark:text-white text-gray-700" id="exclusive">
+    Thanks for using Webmonetization to support this site.
+  </div>
   <h3 class="text-2xl mt-4 font-medium">{reactionText}</h3>
   <Reactions {page} {reactions} />
   <Comments {page} />

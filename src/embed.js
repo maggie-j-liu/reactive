@@ -1,6 +1,12 @@
 import EmbedApp from "./EmbedApp.svelte";
 
-const install = ({ firebaseConfig, reactions, page, reactionText }) => {
+const install = ({
+  firebaseConfig,
+  reactions,
+  page,
+  reactionText,
+  paymentPointer,
+}) => {
   const div = document.getElementById("reactive_widget");
   const app = new EmbedApp({
     target: div,
@@ -9,6 +15,7 @@ const install = ({ firebaseConfig, reactions, page, reactionText }) => {
       page,
       reactions,
       reactionText,
+      paymentPointer,
     },
   });
 };

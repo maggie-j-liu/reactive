@@ -7,13 +7,6 @@
     isDarkMode = changeTo === "dark";
     localStorage.setItem("theme", changeTo);
   };
-  console.log(document.monetization);
-  if (document.monetization) {
-    document.monetization.addEventListener("monetizationstart", () => {
-      console.log("started");
-      document.getElementById("exclusive").classList.remove("hidden");
-    });
-  }
 </script>
 
 <svelte:head>
@@ -21,9 +14,6 @@
 </svelte:head>
 <div class={isDarkMode ? "dark" : "light"}>
   <div id="reactive_widget">
-    <div class="hidden dark:text-white" id="exclusive">
-      Thanks for using Webmonetization to support this site.
-    </div>
     <EmbedApp {...$$props} />
   </div>
   <button
