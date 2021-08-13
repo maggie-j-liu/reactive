@@ -9,9 +9,6 @@
   };
 </script>
 
-<svelte:head>
-  <meta name="monetization" content="$ilp.uphold.com/LJmbPn7WD4JB" />
-</svelte:head>
 <div class={isDarkMode ? "dark" : "light"}>
   <div id="reactive_widget">
     <EmbedApp {...$$props} />
