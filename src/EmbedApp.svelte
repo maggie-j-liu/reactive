@@ -41,18 +41,20 @@
 <svelte:head>
   <meta name="monetization" content={paymentPointer} />
 </svelte:head>
-<main class="w-full mx-auto flex flex-col items-center my-16 dark:text-white">
+<main
+  class="r-w-full r-mx-auto r-flex r-flex-col r-items-center r-my-16 dark:r-text-white"
+>
   {#if $authStore.user}
-    <div class="flex gap-10 items-center">
-      <h2 class="text-3xl font-bold">
-        Hi <span class="text-primary-600 dark:text-primary-400"
+    <div class="r-flex r-gap-10 r-items-center">
+      <h2 class="r-text-3xl r-font-bold">
+        Hi <span class="r-text-primary-600 dark:r-text-primary-400"
           >{$authStore.user.displayName}</span
         > 👋!
       </h2>
       <button
         type="button"
         on:click={logout}
-        class="flex items-center gap-2 text-md primary-btn dark:from-primary-600 dark:hover:from-primary-500 dark:via-blue-500 dark:hover:via-blue-400 dark:to-purple-600 dark:hover:to-purple-500 dark:text-white"
+        class="r-flex r-items-center r-gap-2 r-text-md r-primary-btn dark:r-from-primary-600 dark:hover:r-from-primary-500 dark:r-via-blue-500 dark:hover:r-via-blue-400 dark:r-to-purple-600 dark:hover:r-to-purple-500 dark:r-text-white"
       >
         <LogOut />
         Logout
@@ -63,19 +65,19 @@
       <button
         type="button"
         on:click={loginWithGoogle}
-        class="primary-btn text-md dark:from-primary-600 dark:hover:from-primary-500 dark:via-blue-500 dark:hover:via-blue-400 dark:to-purple-600 dark:hover:to-purple-500 dark:text-white"
+        class="r-primary-btn r-text-md dark:r-from-primary-600 dark:hover:r-from-primary-500 dark:r-via-blue-500 dark:hover:r-via-blue-400 dark:r-to-purple-600 dark:hover:r-to-purple-500 dark:r-text-white"
       >
         Login
       </button>
       to add reactions and comments.
     </div>
   {:else}
-    <div class="h-9" />
+    <div class="r-h-9" />
   {/if}
-  <div class="hidden dark:text-white text-gray-700" id="exclusive">
+  <div class="r-hidden dark:r-text-white r-text-gray-700" id="exclusive">
     Thanks for using Webmonetization to support this site.
   </div>
-  <h3 class="text-2xl mt-4 font-medium">{reactionText}</h3>
+  <h3 class="r-text-2xl r-mt-4 r-font-medium">{reactionText}</h3>
   <Reactions {page} {reactions} />
   <Comments {page} />
 </main>
@@ -100,7 +102,7 @@
     }
   }
   @layer utilities {
-    .primary-btn {
+    .r-primary-btn {
       @apply r-bg-gradient-to-r r-from-primary-100 hover:r-from-primary-200 r-via-blue-100 hover:r-via-blue-200 r-to-purple-100 hover:r-to-purple-200 r-text-primary-900 hover:r-bg-primary-100 r-rounded-md r-py-1 r-px-2;
     }
   }

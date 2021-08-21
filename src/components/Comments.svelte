@@ -199,7 +199,7 @@
       </p>
       <textarea
         bind:value={currentComment}
-        class="r-border-gray-300 dark:!r-border-gray-600 dark:!r-bg-gray-800 r-rounded-md r-w-full r-form-textarea r-font-sans r-h-28 disabled:r-cursor-not-allowed"
+        class="r-border-gray-300 dark:!r-border-gray-600 dark:!r-bg-gray-800 r-rounded-md r-w-full form-textarea r-font-sans r-h-28 disabled:r-cursor-not-allowed"
         placeholder={$authStore.user
           ? "Write your thoughts..."
           : "Login to leave a comment"}
@@ -253,7 +253,7 @@
             class="r-h-12 r-w-12 r-rounded-full"
           />
           <div
-            class="r-bg-primary-50 dark:!r-bg-gray-700 r-flex-grow r-px-6 r-py-4"
+            class="r-bg-primary-50 dark:!r-bg-gray-700 r-flex-grow r-px-6 r-py-4 r-max-w-full r-overflow-scroll"
           >
             <h4
               class="r-text-lg r-text-primary-800 dark:!r-text-primary-300 r-mb-2 r-font-medium"

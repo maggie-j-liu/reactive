@@ -9,12 +9,12 @@
   };
 </script>
 
-<div class={isDarkMode ? "dark" : "light"}>
+<div class={isDarkMode ? "r-dark" : "r-light"}>
   <div id="reactive_widget">
     <EmbedApp {...$$props} />
   </div>
   <button
-    class="fixed top-6 right-6"
+    class="r-fixed r-top-6 r-right-6"
     on:click={() => changeMode(isDarkMode ? "light" : "dark")}
   >
     {#if isDarkMode}
@@ -28,7 +28,7 @@
         stroke-width="2"
         stroke-linecap="round"
         stroke-linejoin="round"
-        class="text-white"
+        class="r-text-white"
       >
         <circle cx="12" cy="12" r="5" />
         <line x1="12" y1="1" x2="12" y2="3" />
@@ -51,7 +51,7 @@
         stroke-width="2"
         stroke-linecap="round"
         stroke-linejoin="round"
-        class="text-black"
+        class="r-text-black"
       >
         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
       </svg>

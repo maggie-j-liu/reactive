@@ -109,18 +109,18 @@
   };
 </script>
 
-<div class="flex gap-4 text-2xl mt-8">
+<div class="r-flex r-gap-4 r-text-2xl r-mt-8">
   {#each reactions as reaction, i (i)}
     <button
       type="button"
       on:click={() => handleReact(reaction)}
       class={`${
         userReacts.includes(reaction)
-          ? "bg-primary-200 hover:bg-primary-100 dark:!bg-primary-800 dark:hover:!bg-primary-600"
-          : "bg-white dark:!bg-gray-700 hover:bg-primary-50 dark:hover:!bg-primary-600"
-      } !px-3 !py-1.5 !rounded-lg !ring-1 !ring-primary-500 hover:!ring-2 hover:!shadow-md`}
+          ? "r-bg-primary-200 hover:r-bg-primary-100 dark:!r-bg-primary-800 dark:hover:!r-bg-primary-600"
+          : "r-bg-white dark:!r-bg-gray-700 hover:r-bg-primary-50 dark:hover:!r-bg-primary-600"
+      } !r-px-3 !r-py-1.5 !r-rounded-lg !r-ring-1 !r-ring-primary-500 hover:!r-ring-2 hover:!r-shadow-md`}
     >
-      <span class="mr-2">
+      <span class="r-mr-2">
         {reaction}
       </span>
       {loadingCounts ? "-" : reactCounts[reaction]}
