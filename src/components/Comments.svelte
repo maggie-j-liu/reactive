@@ -182,24 +182,24 @@
   };
 </script>
 
-<div class="flex flex-col gap-4 mt-16 text-base w-full">
+<div class="r-flex r-flex-col r-gap-4 r-mt-16 r-text-base r-w-full">
   {#if previewMode}
-    <p class="text-gray-600 dark:!text-gray-200">
+    <p class="r-text-gray-600 dark:!r-text-gray-200">
       Add a comment (markdown is supported)
     </p>
     <p
-      class="text-base prose dark:!prose-dark max-w-none dark:!text-white bg-gray-100 dark:!bg-gray-700 px-6 py-4"
+      class="r-text-base r-prose dark:!r-prose-dark r-max-w-none dark:!r-text-white r-bg-gray-100 dark:!r-bg-gray-700 r-px-6 r-py-4"
     >
       <SvelteMarkdown source={currentComment || "Nothing to preview"} />
     </p>
   {:else}
     <label>
-      <p class="text-gray-600 dark:!text-gray-200">
+      <p class="r-text-gray-600 dark:!r-text-gray-200">
         Add a comment (markdown is supported)
       </p>
       <textarea
         bind:value={currentComment}
-        class="border-gray-300 dark:!border-gray-600 dark:!bg-gray-800 rounded-md w-full form-textarea font-sans h-28 disabled:cursor-not-allowed"
+        class="r-border-gray-300 dark:!r-border-gray-600 dark:!r-bg-gray-800 r-rounded-md r-w-full r-form-textarea r-font-sans r-h-28 disabled:r-cursor-not-allowed"
         placeholder={$authStore.user
           ? "Write your thoughts..."
           : "Login to leave a comment"}
@@ -208,12 +208,12 @@
     </label>
   {/if}
 
-  <div class="self-end space-x-4">
+  <div class="r-self-end r-space-x-4">
     <button
       on:click={() => {
         previewMode = !previewMode;
       }}
-      class="dark:!bg-primary-600 dark:hover:!bg-primary-500 dark:disabled:!bg-gray-500 dark:!text-white dark:disabled:!text-gray-300 text-lg bg-primary-100 hover:bg-primary-200 text-primary-800 px-4 py-1 rounded-md disabled:bg-gray-100 disabled:hover:bg-gray-100 disabled:cursor-not-allowed disabled:text-gray-600"
+      class="dark:!r-bg-primary-600 dark:hover:!r-bg-primary-500 dark:disabled:!r-bg-gray-500 dark:!r-text-white dark:disabled:!r-text-gray-300 r-text-lg r-bg-primary-100 hover:r-bg-primary-200 r-text-primary-800 r-px-4 r-py-1 r-rounded-md disabled:r-bg-gray-100 disabled:r-hover:bg-gray-100 disabled:r-cursor-not-allowed disabled:r-text-gray-600"
       disabled={!$authStore.user || !currentComment}
     >
       {previewMode ? "Edit" : "Preview"}
@@ -221,55 +221,57 @@
     <button
       on:click={() => handleAddComment()}
       type="button"
-      class="dark:!from-primary-600 dark:hover:!from-primary-500 dark:disabled:hover:!from-primary-600 dark:!via-blue-500 dark:hover:!via-blue-400 dark:disabled:hover:!via-blue-500 dark:!to-purple-600 dark:hover:!to-purple-500 dark:disabled:hover:!to-purple-600 dark:!text-white text-lg primary-btn px-4 py-1"
+      class="dark:!r-from-primary-600 dark:hover:!r-from-primary-500 dark:disabled:hover:!r-from-primary-600 dark:!r-via-blue-500 dark:hover:!r-via-blue-400 dark:disabled:hover:!r-via-blue-500 dark:!r-to-purple-600 dark:hover:!r-to-purple-500 dark:disabled:hover:!r-to-purple-600 dark:!r-text-white r-text-lg r-primary-btn r-px-4 r-py-1"
       disabled={!$authStore.user || !currentComment}
     >
       Submit
     </button>
   </div>
   {#if usersLoaded}
-    <div class="mt-4">
+    <div class="r-mt-4">
       {commentsLoaded ? comments.length : "-"}{" "}
       {commentsLoaded && comments.length == 1 ? "comment" : "comments"}
-      <span class="mx-4 text-lg">|</span>
+      <span class="r-mx-4 r-text-lg">|</span>
       <em class="text-gray-600 dark:!text-gray-300">
         Powered by
         <a
           href="https://github.com/maggie-j-liu/reactive"
           rel="noreferrer"
           target="_blank"
-          class="text-primary-500 font-medium hover:underline"
+          class="r-text-primary-500 r-font-medium r-hover:underline"
         >
           Reactive
         </a>
       </em>
     </div>
-    <div class="space-y-8">
+    <div class="r-space-y-8">
       {#each comments as comment (comment.id)}
-        <div class="flex gap-4">
+        <div class="r-flex r-gap-4">
           <img
             src={users[comment.user].photo}
             alt="{users[comment.user].name}'s profile picture"
-            class="h-12 w-12 rounded-full"
+            class="r-h-12 r-w-12 r-rounded-full"
           />
-          <div class="bg-primary-50 dark:!bg-gray-700 flex-grow px-6 py-4">
+          <div
+            class="r-bg-primary-50 dark:!r-bg-gray-700 r-flex-grow r-px-6 r-py-4"
+          >
             <h4
-              class="text-lg text-primary-800 dark:!text-primary-300 mb-2 font-medium"
+              class="r-text-lg r-text-primary-800 dark:!r-text-primary-300 r-mb-2 r-font-medium"
             >
               {users[comment.user].name}
-              <span class="text-base text-gray-400 font-normal"
+              <span class="r-text-base r-text-gray-400 r-font-normal"
                 >commented {timeAgo.format(comment.timestamp)}
               </span>
             </h4>
             <p
-              class="text-base prose dark:!prose-dark max-w-none dark:!text-white"
+              class="r-text-base r-prose dark:!r-prose-dark r-max-w-none dark:!r-text-white"
             >
               <SvelteMarkdown source={comment.text} />
             </p>
-            <div class="w-full flex justify-end items-center gap-2">
+            <div class="r-w-full r-flex r-justify-end r-items-center r-gap-2">
               {#if $authStore.user && comment.user == $authStore.user.uid}
                 <button
-                  class="hover:bg-red-100/60 dark:hover:!bg-red-500/25 px-2 py-2 rounded-full"
+                  class="hover:r-bg-red-100/60 dark:hover:!r-bg-red-500/25 r-px-2 r-py-2 r-rounded-full"
                   on:click={() => handleDeleteComment(comment)}
                 >
                   <svg
@@ -280,7 +282,7 @@
                     stroke-width="2"
                     stroke-linecap="round"
                     stroke-linejoin="round"
-                    class=" h-6 w-6 text-red-600 dark:!text-red-500"
+                    class="r-h-6 r-w-6 r-text-red-600 dark:!r-text-red-500"
                   >
                     <polyline points="3 6 5 6 21 6" />
                     <path
@@ -293,7 +295,7 @@
               {/if}
               {#if $authStore.user}
                 <button
-                  class="px-2 py-2 rounded-full hover:bg-pink-100/60 dark:hover:!bg-pink-400/20 flex text-pink-600 dark:!text-pink-400 font-semibold gap-2 items-center"
+                  class="r-px-2 r-py-2 r-rounded-full hover:r-bg-pink-100/60 dark:hover:!r-bg-pink-400/20 r-flex r-text-pink-600 dark:!r-text-pink-400 r-font-semibold r-gap-2 r-items-center"
                   on:click={() => handleLike(comment)}
                 >
                   <svg
@@ -306,7 +308,7 @@
                     stroke-width="2"
                     stroke-linecap="round"
                     stroke-linejoin="round"
-                    class="h-6 w-6 text-pink-600 dark:!text-pink-400"
+                    class="r-h-6 r-w-6 r-text-pink-600 dark:!r-text-pink-400"
                   >
                     <path
                       d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
@@ -316,7 +318,7 @@
                 </button>
               {:else}
                 <div
-                  class="px-2 py-2 flex text-pink-600 font-semibold gap-2 items-center"
+                  class="r-px-2 r-py-2 r-flex r-text-pink-600 r-font-semibold r-gap-2 r-items-center"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -326,7 +328,7 @@
                     stroke-width="2"
                     stroke-linecap="round"
                     stroke-linejoin="round"
-                    class="h-6 w-6 text-pink-600"
+                    class="r-h-6 r-w-6 r-text-pink-600"
                   >
                     <path
                       d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
@@ -348,8 +350,8 @@
   @tailwind components;
   @tailwind utilities;
   @layer utilities {
-    .primary-btn {
-      @apply bg-gradient-to-r from-primary-100 hover:from-primary-200 via-blue-100 hover:via-blue-200 to-purple-100 hover:to-purple-200 text-primary-900 hover:bg-primary-100 rounded-md disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:from-primary-100 disabled:hover:via-blue-100 disabled:hover:to-purple-100;
+    .r-primary-btn {
+      @apply r-bg-gradient-to-r r-from-primary-100 hover:r-from-primary-200 r-via-blue-100 hover:r-via-blue-200 r-to-purple-100 hover:r-to-purple-200 r-text-primary-900 hover:r-bg-primary-100 r-rounded-md disabled:r-cursor-not-allowed disabled:r-opacity-70 disabled:hover:r-from-primary-100 disabled:hover:r-via-blue-100 disabled:hover:r-to-purple-100;
     }
   }
 </style>

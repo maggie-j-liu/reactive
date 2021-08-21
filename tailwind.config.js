@@ -1,5 +1,6 @@
 const colors = require("tailwindcss/colors");
 module.exports = {
+  prefix: "r-",
   mode: "jit",
   purge: ["./src/**/*.{js,svelte}"],
   darkMode: "class", // or 'media' or 'class'
