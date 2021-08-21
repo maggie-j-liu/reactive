@@ -187,11 +187,11 @@
     <p class="r-text-gray-600 dark:!r-text-gray-200">
       Add a comment (markdown is supported)
     </p>
-    <p
-      class="r-text-base r-prose dark:!r-prose-dark r-max-w-none dark:!r-text-white r-bg-gray-100 dark:!r-bg-gray-700 r-px-6 r-py-4"
+    <div
+      class="r-max-h-96 r-overflow-scroll r-text-base r-prose dark:!r-prose-dark r-max-w-none dark:!r-text-white r-bg-gray-100 dark:!r-bg-gray-700 r-px-6 r-py-4"
     >
       <SvelteMarkdown source={currentComment || "Nothing to preview"} />
-    </p>
+    </div>
   {:else}
     <label>
       <p class="r-text-gray-600 dark:!r-text-gray-200">
@@ -263,11 +263,11 @@
                 >commented {timeAgo.format(comment.timestamp)}
               </span>
             </h4>
-            <p
-              class="r-text-base r-prose dark:!r-prose-dark r-max-w-none dark:!r-text-white"
+            <div
+              class="r-max-h-96 r-overflow-scroll r-text-base r-prose dark:!r-prose-dark r-max-w-none dark:!r-text-white"
             >
               <SvelteMarkdown source={comment.text} />
-            </p>
+            </div>
             <div class="r-w-full r-flex r-justify-end r-items-center r-gap-2">
               {#if $authStore.user && comment.user == $authStore.user.uid}
                 <button
