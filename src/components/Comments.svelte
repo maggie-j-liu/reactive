@@ -188,7 +188,7 @@
       Add a comment (markdown is supported)
     </p>
     <div
-      class="r-max-h-96 r-overflow-scroll r-text-base r-prose dark:!r-prose-dark r-max-w-none dark:!r-text-white r-bg-gray-100 dark:!r-bg-gray-700 r-px-6 r-py-4"
+      class="r-max-h-96 r-scroll-auto r-text-base r-prose dark:!r-prose-dark r-max-w-none dark:!r-text-white r-bg-gray-100 dark:!r-bg-gray-700 r-px-6 r-py-4"
     >
       <SvelteMarkdown source={currentComment || "Nothing to preview"} />
     </div>
