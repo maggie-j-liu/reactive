@@ -253,7 +253,7 @@
             class="r-h-12 r-w-12 r-rounded-full"
           />
           <div
-            class="r-bg-primary-50 dark:!r-bg-gray-700 r-flex-grow r-px-6 r-py-4 r-max-w-full"
+            class="r-bg-primary-50 dark:!r-bg-gray-700 r-flex-grow r-min-w-0 r-px-6 r-py-4 r-max-w-full"
           >
             <h4
               class="r-text-lg r-text-primary-800 dark:!r-text-primary-300 r-mb-2 r-font-medium"
