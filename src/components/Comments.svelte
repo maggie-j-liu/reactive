@@ -253,7 +253,7 @@
             class="r-h-12 r-w-12 r-rounded-full"
           />
           <div
-            class="r-bg-primary-50 dark:!r-bg-gray-700 r-flex-grow r-px-6 r-py-4 r-max-w-full r-overflow-scroll"
+            class="r-bg-primary-50 dark:!r-bg-gray-700 r-flex-grow r-px-6 r-py-4 r-max-w-full r-break-words"
           >
             <h4
               class="r-text-lg r-text-primary-800 dark:!r-text-primary-300 r-mb-2 r-font-medium"
@@ -264,7 +264,7 @@
               </span>
             </h4>
             <div
-              class="r-max-h-96 r-overflow-scroll r-text-base r-prose dark:!r-prose-dark r-max-w-none dark:!r-text-white"
+              class="r-max-h-96 r-break-words r-text-base r-prose dark:!r-prose-dark r-max-w-none dark:!r-text-white"
             >
               <SvelteMarkdown source={comment.text} />
             </div>
