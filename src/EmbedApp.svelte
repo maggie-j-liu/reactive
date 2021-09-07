@@ -77,8 +77,12 @@
   <div class="r-hidden dark:r-text-white r-text-gray-700" id="exclusive">
     Thanks for using Webmonetization to support this site.
   </div>
-  <h3 class="r-text-2xl r-mt-4 r-font-medium">{reactionText}</h3>
-  <Reactions {page} {reactions} />
+  {#if reactionText.length > 0}
+    <h3 class="r-text-2xl r-mt-4 r-font-medium">{reactionText}</h3>
+  {/if}
+  {#if reactions.length > 0}
+    <Reactions {page} {reactions} />
+  {/if}
   <Comments {page} />
 </main>
 

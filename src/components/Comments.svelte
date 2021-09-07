@@ -184,11 +184,11 @@
 
 <div class="r-flex r-flex-col r-gap-4 r-mt-16 r-text-base r-w-full">
   {#if previewMode}
-    <p class="r-text-gray-600 dark:!r-text-gray-200">
+    <p class="r-text-gray-600 dark:!r-text-gray-200 r-overflow-x-hidden r-break-words">
       Add a comment (markdown is supported)
     </p>
     <div
-      class="r-max-h-96 r-overflow-scroll r-text-base r-prose dark:!r-prose-dark r-max-w-none dark:!r-text-white r-bg-gray-100 dark:!r-bg-gray-700 r-px-6 r-py-4"
+      class="r-max-h-96 r-overflow-x-hidden r-overflow-y-auto r-break-words r-text-base r-prose dark:!r-prose-dark r-max-w-none dark:!r-text-white r-bg-gray-100 dark:!r-bg-gray-700 r-px-6 r-py-4"
     >
       <SvelteMarkdown source={currentComment || "Nothing to preview"} />
     </div>
@@ -253,7 +253,7 @@
             class="r-h-12 r-w-12 r-rounded-full"
           />
           <div
-            class="r-bg-primary-50 dark:!r-bg-gray-700 r-flex-grow r-px-6 r-py-4 r-max-w-full r-overflow-scroll"
+            class="r-bg-primary-50 dark:!r-bg-gray-700 r-flex-grow r-min-w-0 r-px-6 r-py-4 r-max-w-full"
           >
             <h4
               class="r-text-lg r-text-primary-800 dark:!r-text-primary-300 r-mb-2 r-font-medium"
@@ -264,7 +264,7 @@
               </span>
             </h4>
             <div
-              class="r-max-h-96 r-overflow-scroll r-text-base r-prose dark:!r-prose-dark r-max-w-none dark:!r-text-white"
+              class="r-max-h-96 r-overflow-y-auto r-overflow-x-hidden r-break-words r-text-base r-prose dark:!r-prose-dark r-max-w-none dark:!r-text-white"
             >
               <SvelteMarkdown source={comment.text} />
             </div>
