@@ -1,6 +1,5 @@
 {
   "rules": {
-    ".read": true,
     "posts": {
       "$post": {
         "reactions": {
@@ -18,6 +17,7 @@
           }
         },
         "comments": {
+          ".read": true,
           "$commentId": {
             ".write": "auth != null && (newData.child('user').val() == auth.uid || data.child('user').val() == auth.uid)",
             "$field": {
@@ -29,6 +29,7 @@
     },
     "users": {
       "info": {
+        ".read": true,
         "$uid": {
           ".write": "auth != null && auth.uid == $uid"
         }
