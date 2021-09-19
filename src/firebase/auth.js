@@ -37,7 +37,10 @@ export const initAuth = () => {
   const authStore = readable({ user: null, loading: true }, (set) => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        set({ user: user, loading: false });
+        set({
+          user: { ...user, displayName: user.displayName.split(" ")[0] },
+          loading: false,
+        });
       } else {
         set({ user: null, loading: false });
       }

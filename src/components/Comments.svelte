@@ -115,6 +115,15 @@
       likes: 0,
     }).key;
 
+    if (!users[$authStore.user.uid]) {
+      users = {
+        ...users,
+        [$authStore.user.uid]: {
+          name: $authStore.user.displayName,
+          photo: $authStore.user.photoURL,
+        },
+      };
+    }
     comments = [
       {
         id: newCommentKey,
@@ -184,7 +193,9 @@
 
 <div class="r-flex r-flex-col r-gap-4 r-mt-16 r-text-base r-w-full">
   {#if previewMode}
-    <p class="r-text-gray-600 dark:!r-text-gray-200 r-overflow-x-hidden r-break-words">
+    <p
+      class="r-text-gray-600 dark:!r-text-gray-200 r-overflow-x-hidden r-break-words"
+    >
       Add a comment (markdown is supported)
     </p>
     <div
