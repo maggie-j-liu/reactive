@@ -1,15 +1,16 @@
 {
   "rules": {
-    ".read": true,
     "posts": {
       "$post": {
         "reactions": {
+          ".read": true,
           "count": {
             "$reaction": {
               ".write": "auth != null && ((newData.val() > (data.val() == null ? 0 : data.val()) && !data.parent().parent().child('users').child($reaction).child(auth.uid).exists()) || (newData.val() < (data.val() == null ? 0 : data.val()) && data.parent().parent().child('users').child($reaction).child(auth.uid).val() == true))"
             }
           },
           "users": {
+            ".read": true,
             "$reaction": {
               "$uid": {
                 ".write": "auth != null && auth.uid == $uid"
@@ -18,6 +19,7 @@
           }
         },
         "comments": {
+          ".read": true,
           "$commentId": {
             ".write": "auth != null && (newData.child('user').val() == auth.uid || data.child('user').val() == auth.uid)",
             "$field": {
@@ -29,12 +31,14 @@
     },
     "users": {
       "info": {
+        ".read": true,
         "$uid": {
           ".write": "auth != null && auth.uid == $uid"
         }
       },
       "activity": {
         "$uid": {
+          ".read": true,
           ".write": "auth != null && auth.uid == $uid"
         }
       }
