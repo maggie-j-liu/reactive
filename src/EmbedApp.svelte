@@ -30,17 +30,19 @@
   } catch (error) {
     throw error;
   }
+  /*
   if (document.monetization) {
     document.monetization.addEventListener("monetizationstart", () => {
       console.log("started");
       document.getElementById("exclusive").classList.remove("hidden");
     });
   }
+  */
 </script>
 
-<svelte:head>
+<!--<svelte:head>
   <meta name="monetization" content={paymentPointer} />
-</svelte:head>
+</svelte:head>-->
 <main
   class="r-w-full r-mx-auto r-flex r-flex-col r-items-center r-my-16 dark:r-text-white"
 >
@@ -74,11 +76,13 @@
   {:else}
     <div class="r-h-9" />
   {/if}
-  <div class="r-hidden dark:r-text-white r-text-gray-700" id="exclusive">
+  <!--<div class="r-hidden dark:r-text-white r-text-gray-700" id="exclusive">
     Thanks for using Webmonetization to support this site.
-  </div>
+  </div>-->
   {#if reactionText.length > 0}
-    <h3 class="r-text-2xl r-mt-4 r-font-medium">{reactionText}</h3>
+    <h3 class="r-text-2xl r-text-center r-mt-4 r-font-medium">
+      {reactionText}
+    </h3>
   {/if}
   {#if reactions.length > 0}
     <Reactions {page} {reactions} />
