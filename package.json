@@ -46,8 +46,7 @@
     "svelte": "^3.0.0",
     "svelte-markdown": "^0.1.10",
     "svelte-preprocess": "^4.7.4",
-    "tailwindcss": "^2.2.7",
-    "husky": "^7.0.0"
+    "tailwindcss": "^2.2.7"
   },
   "dependencies": {
     "sirv-cli": "^1.0.0"
