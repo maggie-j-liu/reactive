@@ -13,13 +13,12 @@
     : window.location.pathname + "/";
   export let reactionText =
     "Did you enjoy this post? Leave your reactions below!";
-  export let paymentPointer = "$ilp.uphold.com/LJmbPn7WD4JB";
+  export let paymentPointer = null;
   if (!firebaseConfig) {
     throw new Error("No firebaseConfig was provided");
   }
-  let firebaseApp;
   if (!getApps().length) {
-    firebaseApp = initializeApp(firebaseConfig);
+    initializeApp(firebaseConfig);
   }
   let authStore, loginWithGoogle, logout;
   try {
@@ -30,19 +29,20 @@
   } catch (error) {
     throw error;
   }
-  /*
-  if (document.monetization) {
+  if (paymentPointer !== null && document.monetization) {
     document.monetization.addEventListener("monetizationstart", () => {
       console.log("started");
       document.getElementById("exclusive").classList.remove("hidden");
     });
   }
-  */
 </script>
 
-<!--<svelte:head>
-  <meta name="monetization" content={paymentPointer} />
-</svelte:head>-->
+<svelte:head>
+  {#if paymentPointer}
+    <meta name="monetization" content={paymentPointer} />
+  {/if}
+</svelte:head>
+
 <main
   class="r-w-full r-mx-auto r-flex r-flex-col r-items-center r-my-16 dark:r-text-white"
 >
@@ -76,9 +76,9 @@
   {:else}
     <div class="r-h-9" />
   {/if}
-  <!--<div class="r-hidden dark:r-text-white r-text-gray-700" id="exclusive">
+  <div class="r-hidden dark:r-text-white r-text-gray-700" id="exclusive">
     Thanks for using Webmonetization to support this site.
-  </div>-->
+  </div>
   {#if reactionText.length > 0}
     <h3 class="r-text-2xl r-text-center r-mt-4 r-font-medium">
       {reactionText}
