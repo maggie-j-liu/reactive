@@ -1,4 +1,14 @@
 const colors = require("tailwindcss/colors");
+const createColors = (colorName, defaultTailwindColor) => {
+  return Object.fromEntries(
+    new Map(
+      [50, 100, 200, 300, 400, 500, 600, 700, 800, 900].map((val) => [
+        val,
+        `var(--reactive-${colorName}-${val}, ${defaultTailwindColor[val]})`,
+      ])
+    )
+  );
+};
 module.exports = {
   prefix: "r-",
   mode: "jit",
@@ -7,7 +17,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: colors.sky,
+        primary: createColors("primary", colors.sky),
+        secondary: createColors("secondary", colors.purple),
       },
       typography: (theme) => ({
         dark: {

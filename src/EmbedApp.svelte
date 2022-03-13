@@ -56,7 +56,7 @@
       <button
         type="button"
         on:click={logout}
-        class="r-flex r-items-center r-gap-2 r-text-md r-primary-btn dark:r-from-primary-600 dark:hover:r-from-primary-500 dark:r-via-blue-500 dark:hover:r-via-blue-400 dark:r-to-purple-600 dark:hover:r-to-purple-500 dark:r-text-white"
+        class="r-flex r-items-center r-gap-2 r-text-md r-primary-btn dark:r-from-primary-600 dark:hover:r-from-primary-500 dark:r-to-secondary-600 dark:hover:r-to-secondary-500 dark:r-text-white"
       >
         <LogOut />
         Logout
@@ -67,7 +67,7 @@
       <button
         type="button"
         on:click={loginWithGoogle}
-        class="r-primary-btn r-text-md dark:r-from-primary-600 dark:hover:r-from-primary-500 dark:r-via-blue-500 dark:hover:r-via-blue-400 dark:r-to-purple-600 dark:hover:r-to-purple-500 dark:r-text-white"
+        class="r-primary-btn r-text-md dark:r-from-primary-600 dark:hover:r-from-primary-500 dark:r-to-secondary-600 dark:hover:r-to-secondary-500 dark:r-text-white"
       >
         Login
       </button>
@@ -111,7 +111,7 @@
   }
   @layer utilities {
     .r-primary-btn {
-      @apply r-bg-gradient-to-r r-from-primary-100 hover:r-from-primary-200 r-via-blue-100 hover:r-via-blue-200 r-to-purple-100 hover:r-to-purple-200 r-text-primary-900 hover:r-bg-primary-100 r-rounded-md r-py-1 r-px-2;
+      @apply r-bg-gradient-to-r r-from-primary-100 hover:r-from-primary-200 r-to-secondary-100 hover:r-to-secondary-200 r-text-primary-900 hover:r-bg-primary-100 r-rounded-md r-py-1 r-px-2;
     }
   }
 </style>

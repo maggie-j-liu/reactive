@@ -232,7 +232,7 @@
     <button
       on:click={() => handleAddComment()}
       type="button"
-      class="dark:!r-from-primary-600 dark:hover:!r-from-primary-500 dark:disabled:hover:!r-from-primary-600 dark:!r-via-blue-500 dark:hover:!r-via-blue-400 dark:disabled:hover:!r-via-blue-500 dark:!r-to-purple-600 dark:hover:!r-to-purple-500 dark:disabled:hover:!r-to-purple-600 dark:!r-text-white r-text-lg r-primary-btn r-px-4 r-py-1"
+      class="dark:!r-from-primary-600 dark:hover:!r-from-primary-500 dark:disabled:hover:!r-from-primary-600 dark:!r-to-secondary-600 dark:hover:!r-to-secondary-500 dark:disabled:hover:!r-to-secondary-600 dark:!r-text-white r-text-lg r-primary-btn r-px-4 r-py-1"
       disabled={!$authStore.user || !currentComment}
     >
       Submit
@@ -362,7 +362,7 @@
   @tailwind utilities;
   @layer utilities {
     .r-primary-btn {
-      @apply r-bg-gradient-to-r r-from-primary-100 hover:r-from-primary-200 r-via-blue-100 hover:r-via-blue-200 r-to-purple-100 hover:r-to-purple-200 r-text-primary-900 hover:r-bg-primary-100 r-rounded-md disabled:r-cursor-not-allowed disabled:r-opacity-70 disabled:hover:r-from-primary-100 disabled:hover:r-via-blue-100 disabled:hover:r-to-purple-100;
+      @apply r-bg-gradient-to-r r-from-primary-100 hover:r-from-primary-200 r-to-secondary-100 hover:r-to-secondary-200 r-text-primary-900 hover:r-bg-primary-100 r-rounded-md disabled:r-cursor-not-allowed disabled:r-opacity-70 disabled:hover:r-from-primary-100 disabled:hover:r-to-secondary-100;
     }
   }
 </style>

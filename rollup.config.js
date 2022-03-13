@@ -7,6 +7,7 @@ import { terser } from "rollup-plugin-terser";
 import css from "rollup-plugin-css-only";
 import sveltePreprocess from "svelte-preprocess";
 import pkg from "./package.json";
+import postcss from "postcss";
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -89,6 +90,9 @@ if (process.env.EMBED) {
       // instead of npm run dev), minify
       production && terser(),
     ],
+    css: {
+      postcss,
+    },
     watch: {
       clearScreen: false,
     },
@@ -131,6 +135,9 @@ if (process.env.EMBED) {
       // instead of npm run dev), minify
       terser(),
     ],
+    css: {
+      postcss,
+    },
   };
 } else {
   app = {
@@ -186,6 +193,9 @@ if (process.env.EMBED) {
       // instead of npm run dev), minify
       production && terser(),
     ],
+    css: {
+      postcss,
+    },
     watch: {
       clearScreen: false,
     },
