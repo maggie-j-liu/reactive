@@ -6,6 +6,26 @@
   import Comments from "./components/Comments.svelte";
   import TailwindUtilsGlobal from "./components/TailwindUtilsGlobal.svelte";
 
+  const tailwindColorValues = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900];
+  export let primaryColors;
+  export let secondaryColors;
+
+  const checkColorArray = (arr) => {
+    if (arr && arr.length && arr.length !== 10) {
+      throw new Error("Must include exactly 10 colors");
+    }
+  };
+  checkColorArray(primaryColors);
+  checkColorArray(secondaryColors);
+
+  const buildCssVars = (arr, name) => {
+    return arr
+      ? tailwindColorValues
+          .map((val, idx) => `--reactive-${name}-${val}: ${arr[idx]};`)
+          .join(" ")
+      : "";
+  };
+
   export let firebaseConfig;
   export let reactions = ["😭", "😕", "😀", "🤩"];
   export let page = window.location.pathname.endsWith("/")
@@ -45,6 +65,10 @@
 
 <main
   class="r-w-full r-mx-auto r-flex r-flex-col r-items-center r-my-16 dark:r-text-white"
+  style={`${buildCssVars(primaryColors, "primary")} ${buildCssVars(
+    secondaryColors,
+    "secondary"
+  )}`}
 >
   {#if $authStore.user}
     <div class="r-flex r-gap-10 r-items-center">

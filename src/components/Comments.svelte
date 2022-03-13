@@ -17,6 +17,7 @@
   import TimeAgo from "javascript-time-ago";
   import en from "javascript-time-ago/locale/en";
   import SvelteMarkdown from "svelte-markdown";
+  import Html from "./Html.svelte";
 
   TimeAgo.addDefaultLocale(en);
   const timeAgo = new TimeAgo("en-US");
@@ -201,7 +202,12 @@
     <div
       class="r-max-h-96 r-overflow-x-hidden r-overflow-y-auto r-break-words r-text-base r-prose dark:!r-prose-dark r-max-w-none dark:!r-text-white r-bg-gray-100 dark:!r-bg-gray-700 r-px-6 r-py-4"
     >
-      <SvelteMarkdown source={currentComment || "Nothing to preview"} />
+      <SvelteMarkdown
+        source={currentComment || "Nothing to preview"}
+        renderers={{
+          html: Html,
+        }}
+      />
     </div>
   {:else}
     <label>
@@ -277,7 +283,12 @@
             <div
               class="r-max-h-96 r-overflow-y-auto r-overflow-x-hidden r-break-words r-text-base r-prose dark:!r-prose-dark r-max-w-none dark:!r-text-white"
             >
-              <SvelteMarkdown source={comment.text} />
+              <SvelteMarkdown
+                source={comment.text}
+                renderers={{
+                  html: Html,
+                }}
+              />
             </div>
             <div class="r-w-full r-flex r-justify-end r-items-center r-gap-2">
               {#if $authStore.user && comment.user == $authStore.user.uid}

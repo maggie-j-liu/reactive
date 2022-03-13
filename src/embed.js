@@ -6,6 +6,8 @@ const install = ({
   page,
   reactionText,
   paymentPointer,
+  primaryColors,
+  secondaryColors,
 }) => {
   const div = document.getElementById("reactive_widget");
   const app = new EmbedApp({
@@ -16,6 +18,8 @@ const install = ({
       reactions,
       reactionText,
       paymentPointer,
+      primaryColors,
+      secondaryColors,
     },
   });
 };
