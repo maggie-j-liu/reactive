@@ -13,7 +13,8 @@
     "build:embed": "EMBED=true rollup -c",
     "build:package": "PACKAGE=true rollup -c",
     "dev": "rollup -c -w",
-    "start": "sirv public --no-clear"
+    "start": "sirv public --no-clear",
+    "prepare": "husky install"
   },
   "files": [
     "public/dist/index.js",
@@ -44,7 +45,8 @@
     "svelte": "^3.0.0",
     "svelte-markdown": "^0.1.10",
     "svelte-preprocess": "^4.7.4",
-    "tailwindcss": "^2.2.7"
+    "tailwindcss": "^2.2.7",
+    "husky": "^7.0.0"
   },
   "dependencies": {
     "sirv-cli": "^1.0.0"
