@@ -90,9 +90,6 @@ if (process.env.EMBED) {
       // instead of npm run dev), minify
       production && terser(),
     ],
-    css: {
-      postcss,
-    },
     watch: {
       clearScreen: false,
     },
@@ -135,9 +132,6 @@ if (process.env.EMBED) {
       // instead of npm run dev), minify
       terser(),
     ],
-    css: {
-      postcss,
-    },
   };
 } else {
   app = {
@@ -193,9 +187,6 @@ if (process.env.EMBED) {
       // instead of npm run dev), minify
       production && terser(),
     ],
-    css: {
-      postcss,
-    },
     watch: {
       clearScreen: false,
     },
