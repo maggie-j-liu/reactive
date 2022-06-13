@@ -19,7 +19,9 @@
   import SvelteMarkdown from "svelte-markdown";
   import Html from "./Html.svelte";
 
-  TimeAgo.addDefaultLocale(en);
+  TimeAgo.addLocale(en);
+  TimeAgo.setDefaultLocale(en.locale);
+
   const timeAgo = new TimeAgo("en-US");
 
   export let page = window.location.pathname.endsWith("/")

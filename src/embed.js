@@ -10,6 +10,9 @@ const install = ({
   secondaryColors,
 }) => {
   const div = document.getElementById("reactive_widget");
+  while (div.firstChild) {
+    div.removeChild(div.firstChild);
+  }
   const app = new EmbedApp({
     target: div,
     props: {
